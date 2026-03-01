@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farm Dashboard — Farmcraft @ Fairview — 2026-03-01</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0a0908;
+      --bg-card: #13120f;
+      --bg-card-raised: #181610;
+      --border-subtle: rgba(196, 163, 76, 0.06);
+      --border-medium: rgba(196, 163, 76, 0.12);
+      --border-strong: rgba(196, 163, 76, 0.22);
+      --text-primary: #ede8df;
+      --text-secondary: #8a8477;
+      --text-muted: #5a564e;
+      --accent-gold: #c4a34c;
+      --accent-gold-bright: #dbb960;
+      --accent-gold-dim: rgba(196, 163, 76, 0.10);
+      --status-ok: #6b9e5a;
+      --status-ok-dim: rgba(107, 158, 90, 0.12);
+      --status-warn: #c89b3c;
+      --status-warn-dim: rgba(200, 155, 60, 0.12);
+      --status-crit: #c44a3f;
+      --status-crit-dim: rgba(196, 74, 63, 0.12);
+      --status-info: #5a8ab0;
+      --status-info-dim: rgba(90, 138, 176, 0.10);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 18px 28px 14px;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.022;
+      background:
+        radial-gradient(ellipse 900px 600px at 20% 30%, rgba(196, 74, 63, 0.35), transparent),
+        radial-gradient(ellipse 600px 800px at 80% 70%, rgba(196, 74, 63, 0.2), transparent);
+    }
+
+    @keyframes enterUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes alertPulse {
+      0%, 100% { border-left-color: var(--status-crit); box-shadow: inset 4px 0 16px -4px rgba(196, 74, 63, 0.15); }
+      50% { border-left-color: #d4605a; box-shadow: inset 4px 0 24px -4px rgba(196, 74, 63, 0.3); }
+    }
+    @keyframes dotBreathe {
+      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(196, 74, 63, 0.6); }
+      50% { opacity: 0.7; transform: scale(1.15); box-shadow: 0 0 12px 4px rgba(196, 74, 63, 0.15); }
+    }
+    .anim-enter { opacity: 0; animation: enterUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+    .header { display: flex; align-items: flex-end; justify-content: space-between; flex-shrink: 0; padding-bottom: 2px; }
+    .header-brand { display: flex; align-items: baseline; gap: 16px; }
+    .header-brand h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.3px; line-height: 1; }
+    .header-brand h1 span { color: var(--accent-gold); }
+    .header-sub { font-size: 13px; color: var(--text-secondary); font-weight: 400; letter-spacing: 0.2px; padding-bottom: 2px; }
+    .header-sub strong { color: var(--text-primary); font-weight: 600; }
+    .badges { display: flex; gap: 8px; align-items: center; }
+    .badge { padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+    .badge-crit { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 74, 63, 0.3); }
+    .badge-heat { background: rgba(212, 112, 64, 0.15); color: #d47040; border: 1px solid rgba(212, 112, 64, 0.3); }
+    .badge-date { background: var(--accent-gold-dim); color: var(--accent-gold); border: 1px solid rgba(196, 163, 76, 0.15); }
+    .alert { background: linear-gradient(90deg, rgba(196, 74, 63, 0.1) 0%, rgba(196, 74, 63, 0.03) 100%); border: 1px solid rgba(196, 74, 63, 0.15); border-left: 4px solid var(--status-crit); border-radius: 2px 10px 10px 2px; padding: 11px 20px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; animation: alertPulse 3s ease-in-out infinite; position: relative; overflow: hidden; }
+    .alert::before { content: ''; position: absolute; inset: 0; opacity: 0.03; background: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(196, 74, 63, 0.5) 8px, rgba(196, 74, 63, 0.5) 9px); }
+    .alert-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--status-crit); flex-shrink: 0; animation: dotBreathe 2s ease-in-out infinite; position: relative; z-index: 1; }
+    .alert-text { font-size: 13px; font-weight: 400; color: #d4a09a; line-height: 1.45; position: relative; z-index: 1; }
+    .alert-text strong { color: #e86b62; font-weight: 700; }
+    .weather-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; flex-shrink: 0; }
+    .kpi { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 12px 16px; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s; position: relative; }
+    .kpi::after { content: ''; position: absolute; top: 0; left: 16px; right: 16px; height: 1px; background: linear-gradient(90deg, transparent, var(--border-medium), transparent); opacity: 0; transition: opacity 0.3s; }
+    .kpi:hover { transform: translateY(-2px); border-color: var(--border-medium); }
+    .kpi:hover::after { opacity: 1; }
+    .kpi-lbl { font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 5px; }
+    .kpi-val { font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 800; line-height: 1; letter-spacing: -1px; }
+    .kpi-val sup { font-size: 12px; font-weight: 500; vertical-align: top; margin-top: 4px; display: inline-block; opacity: 0.6; letter-spacing: 0; }
+    .kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; font-weight: 400; }
+    .c-gold { color: var(--accent-gold-bright); }
+    .c-green { color: #7db06a; }
+    .c-amber { color: #d4a045; }
+    .c-blue { color: #6a9ec4; }
+    .c-orange { color: #d48a45; }
+    .c-red { color: #c4605a; }
+    .c-teal { color: #5aaa9e; }
+    .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; min-height: 0; }
+    .probes-col { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+    .probe-card { background: var(--bg-card); border-radius: 10px; padding: 16px 20px; flex: 1; display: flex; flex-direction: column; gap: 10px; min-height: 0; overflow: hidden; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1); }
+    .probe-card:hover { transform: translateY(-1px); }
+    .probe-card.fault { border: 1px solid rgba(196, 74, 63, 0.2); border-left: 3px solid var(--status-crit); border-radius: 2px 10px 10px 2px; }
+    .probe-hdr { display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .probe-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--text-primary); }
+    .probe-id { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .pill { padding: 4px 11px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.8px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
+    .pill-fault { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 74, 63, 0.25); }
+    .probe-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; flex-shrink: 0; }
+    .pstat { display: flex; flex-direction: column; gap: 1px; }
+    .pstat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
+    .pstat-val { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; line-height: 1.15; }
+    .pstat-val .unit { font-size: 13px; font-weight: 400; opacity: 0.5; }
+    .pstat-sub { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+    .moisture-bar { flex-shrink: 0; position: relative; height: 38px; }
+    .probe-note { font-size: 12px; color: var(--text-secondary); line-height: 1.55; flex-shrink: 0; }
+    .probe-note strong { color: var(--text-primary); font-weight: 600; }
+    .right-col { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+    .forecast-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 20px; flex-shrink: 0; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; color: var(--accent-gold); letter-spacing: 0.3px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-medium), transparent); }
+    .forecast-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+    .fc-day { background: rgba(255, 255, 255, 0.015); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 8px 4px; text-align: center; display: flex; flex-direction: column; gap: 4px; align-items: center; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s, border-color 0.3s; }
+    .fc-day:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.025); border-color: var(--border-medium); }
+    .fc-day.today { border-color: rgba(196, 163, 76, 0.25); background: var(--accent-gold-dim); box-shadow: 0 2px 12px rgba(196, 163, 76, 0.06); }
+    .fc-day.heat { border-color: rgba(196, 74, 63, 0.3); background: var(--status-crit-dim); box-shadow: 0 2px 12px rgba(196, 74, 63, 0.08); }
+    .fc-dow { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; }
+    .fc-day.today .fc-dow { color: var(--accent-gold); }
+    .fc-day.heat .fc-dow { color: var(--status-crit); }
+    .fc-icon { font-size: 17px; line-height: 1; }
+    .fc-temp { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--text-primary); }
+    .fc-rain { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--status-info); font-weight: 600; }
+    .fc-et { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); }
+    .risk-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 20px; flex: 1; min-height: 0; overflow-y: auto; }
+    .risk-table { width: 100%; border-collapse: separate; border-spacing: 0 4px; }
+    .risk-table th { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; padding: 0 8px 6px; text-align: left; }
+    .risk-table tr.risk-row { transition: background 0.2s; }
+    .risk-table tr.risk-row:hover { background: rgba(255, 255, 255, 0.015); }
+    .risk-table td { font-size: 12px; color: #a09a90; padding: 7px 8px; vertical-align: middle; border-top: 1px solid var(--border-subtle); }
+    .risk-table tr.risk-row td:first-child { border-left: 3px solid transparent; border-radius: 2px 0 0 2px; padding-left: 12px; }
+    .risk-table tr.risk-row td:last-child { border-radius: 0 2px 2px 0; }
+    .risk-table tr.risk-row.sev-crit td:first-child { border-left-color: var(--status-crit); }
+    .risk-table tr.risk-row.sev-high td:first-child { border-left-color: #d47040; }
+    .risk-table tr.risk-row.sev-med td:first-child { border-left-color: var(--status-warn); }
+    .sev { padding: 2px 7px; border-radius: 3px; font-size: 10px; font-weight: 800; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; white-space: nowrap; }
+    .sev-c { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 74, 63, 0.2); }
+    .sev-h { background: rgba(212, 112, 64, 0.12); color: #d47040; }
+    .sev-m { background: var(--status-warn-dim); color: var(--status-warn); }
+    .urg-now { color: var(--status-crit); font-weight: 800; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+    .urg-week { color: var(--status-warn); font-weight: 600; font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+    .urg-month { color: var(--accent-gold); font-size: 12px; font-family: 'JetBrains Mono', monospace; }
+    .soil-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex-shrink: 0; }
+    .soil-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 16px; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s; }
+    .soil-card:hover { transform: translateY(-1px); border-color: var(--border-medium); }
+    .soil-gauge { width: 72px; height: 72px; flex-shrink: 0; position: relative; }
+    .soil-gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .soil-gauge-bg { fill: none; stroke: rgba(255, 255, 255, 0.04); stroke-width: 5; }
+    .soil-gauge-fill { fill: none; stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+    .soil-gauge-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .soil-gauge-value { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 800; line-height: 1; }
+    .soil-gauge-unit { font-size: 9px; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
+    .soil-meta { flex: 1; min-width: 0; }
+    .soil-name { font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+    .soil-target { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+    .soil-action { font-size: 11px; color: var(--text-muted); margin-top: 5px; line-height: 1.4; }
+    .soil-action strong { color: var(--text-secondary); font-weight: 600; }
+    .footer { display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; padding-top: 2px; }
+    .footer span { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: 4px; }
+
+    @media (max-width: 768px) {
+      body { height: auto; overflow: auto; padding: 12px 14px 12px; gap: 8px; }
+      .header { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .header-brand { flex-direction: column; gap: 4px; }
+      .header-brand h1 { font-size: 22px; }
+      .badges { flex-wrap: wrap; }
+      .weather-row { grid-template-columns: repeat(3, 1fr); }
+      .kpi-val { font-size: 22px; }
+      .main-grid { grid-template-columns: 1fr; }
+      .probe-card { flex: none; min-height: auto; }
+      .forecast-grid { grid-template-columns: repeat(4, 1fr); }
+      .risk-table td:last-child { display: none; }
+      .soil-strip { grid-template-columns: 1fr; }
+      .footer { flex-direction: column; gap: 4px; align-items: flex-start; }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .weather-row { grid-template-columns: repeat(3, 1fr); }
+      .kpi-val { font-size: 24px; }
+      .forecast-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div class="header anim-enter" style="animation-delay:0ms">
+    <div class="header-brand">
+      <h1>Farmcraft <span>@</span> Fairview</h1>
+      <span class="header-sub"><strong>PTN 201</strong> · 7.5 ha Macadamia · Ballito, KZN · 5,000 Trees · 1–5 yr</span>
+    </div>
+    <div class="badges">
+      <span class="badge badge-crit">FLOW COLLAPSE — DAY 10</span>
+      <span class="badge badge-heat">HEAT DAY 2 — 35.4°C ACTUAL</span>
+      <span class="badge badge-date">2026-03-01</span>
+    </div>
+  </div>
+
+  <!-- ALERT BAR -->
+  <div class="alert anim-enter" style="animation-delay:80ms">
+    <div class="alert-dot"></div>
+    <div class="alert-text">
+      <strong>STRUCTURAL EMERGENCY:</strong> Two-day extreme heat (36.0 + 35.4°C) with zero/trace irrigation. Forecast FAILED today (predicted 28.7°C, actual 35.4°C).
+      <strong>Next heat: Thu-Fri 35.1 + 36.6°C. Book irrigation tech MONDAY. Repair window: Mon-Wed only.</strong>
+    </div>
+  </div>
+
+  <!-- WEATHER KPI ROW -->
+  <div class="weather-row">
+    <div class="kpi anim-enter" style="animation-delay:140ms">
+      <div class="kpi-lbl">Temperature</div>
+      <div class="kpi-val c-red">35.4<sup>°C</sup></div>
+      <div class="kpi-sub">Feels 38.3° · Forecast was 28.7°</div>
+    </div>
+    <div class="kpi anim-enter" style="animation-delay:180ms">
+      <div class="kpi-lbl">Humidity</div>
+      <div class="kpi-val c-red">41<sup>%</sup></div>
+      <div class="kpi-sub">7d low · Extreme drying</div>
+    </div>
+    <div class="kpi anim-enter" style="animation-delay:220ms">
+      <div class="kpi-lbl">Rain Today</div>
+      <div class="kpi-val c-blue">0.0<sup>mm</sup></div>
+      <div class="kpi-sub">Forecast said 9.4mm — none</div>
+    </div>
+    <div class="kpi anim-enter" style="animation-delay:260ms">
+      <div class="kpi-lbl">Solar / UVI</div>
+      <div class="kpi-val c-orange">822<sup>W/m²</sup></div>
+      <div class="kpi-sub">UVI 8 · Intense radiation</div>
+    </div>
+    <div class="kpi anim-enter" style="animation-delay:300ms">
+      <div class="kpi-lbl">Wind</div>
+      <div class="kpi-val c-green">2.0<sup>m/s</sup></div>
+      <div class="kpi-sub">NE (31°) · Gust 4.1 m/s</div>
+    </div>
+    <div class="kpi anim-enter" style="animation-delay:340ms">
+      <div class="kpi-lbl">Pressure</div>
+      <div class="kpi-val c-red">1002<sup>hPa</sup></div>
+      <div class="kpi-sub">Dropping · 7d low 999.6</div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+    <!-- LEFT: PROBES -->
+    <div class="probes-col">
+      <!-- TOP PROBE -->
+      <div class="probe-card fault anim-enter" style="animation-delay:400ms">
+        <div class="probe-hdr">
+          <div>
+            <div class="probe-title">Top Probe (AC228398)</div>
+            <div class="probe-id">1 drip line · Young trees 1-2yr · Indicators: -2, 0 · 30d: 86 hrs</div>
+          </div>
+          <span class="pill pill-fault">ZERO FLOW</span>
+        </div>
+        <div class="probe-stats">
+          <div class="pstat">
+            <span class="pstat-lbl">Topsoil Now</span>
+            <span class="pstat-val c-amber">~0 <span class="unit">mm</span></span>
+            <span class="pstat-sub">Declining fast at 35.4°C</span>
+          </div>
+          <div class="pstat">
+            <span class="pstat-lbl">Flow / Tree</span>
+            <span class="pstat-val c-red">0.0 <span class="unit">L/hr</span></span>
+            <span class="pstat-sub">Was 3.3-3.5 · ZERO</span>
+          </div>
+          <div class="pstat">
+            <span class="pstat-lbl">ETc Ratio</span>
+            <span class="pstat-val c-red">~0 <span class="unit">/ 0.6</span></span>
+            <span class="pstat-sub">No transpiration</span>
+          </div>
+        </div>
+        <div class="moisture-bar">
+          <svg width="100%" height="38" viewBox="0 0 460 38" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="wet1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(90,138,176,0.2)" /><stop offset="100%" stop-color="rgba(90,138,176,0.1)" /></linearGradient>
+              <linearGradient id="safe1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(107,158,90,0.12)" /><stop offset="100%" stop-color="rgba(107,158,90,0.08)" /></linearGradient>
+              <linearGradient id="caut1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(200,155,60,0.10)" /><stop offset="100%" stop-color="rgba(200,155,60,0.06)" /></linearGradient>
+              <linearGradient id="stress1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(196,74,63,0.12)" /><stop offset="100%" stop-color="rgba(196,74,63,0.18)" /></linearGradient>
+            </defs>
+            <rect x="0" y="5" width="65" height="19" rx="3" fill="url(#wet1)" />
+            <rect x="65" y="5" width="105" height="19" fill="url(#safe1)" />
+            <rect x="170" y="5" width="140" height="19" fill="url(#caut1)" />
+            <rect x="310" y="5" width="150" height="19" rx="3" fill="url(#stress1)" />
+            <line x1="170" y1="2" x2="170" y2="36" stroke="rgba(107,158,90,0.2)" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="310" y1="2" x2="310" y2="36" stroke="rgba(200,155,60,0.2)" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="100" y1="14" x2="260" y2="14" stroke="rgba(196,74,63,0.35)" stroke-width="1" stroke-dasharray="4,3" />
+            <polygon points="260,10 270,14 260,18" fill="rgba(196,74,63,0.45)" />
+            <text x="185" y="9" text-anchor="middle" font-size="7" fill="var(--status-crit)" font-family="JetBrains Mono" font-weight="600" opacity="0.7">caution by Mar 4 (real: faster)</text>
+            <circle cx="100" cy="14" r="9" fill="rgba(107,158,90,0.25)" stroke="var(--status-ok)" stroke-width="1.5" />
+            <text x="100" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
+            <text x="32" y="35" text-anchor="middle" font-size="8" fill="var(--status-info)" font-family="Outfit" font-weight="600" opacity="0.7">WET</text>
+            <text x="117" y="35" text-anchor="middle" font-size="8" fill="var(--status-ok)" font-family="Outfit" font-weight="600" opacity="0.7">SAFE</text>
+            <text x="240" y="35" text-anchor="middle" font-size="8" fill="var(--status-warn)" font-family="Outfit" font-weight="600" opacity="0.7">CAUTION</text>
+            <text x="385" y="35" text-anchor="middle" font-size="8" fill="var(--status-crit)" font-family="Outfit" font-weight="600" opacity="0.7">STRESS</text>
+          </svg>
+        </div>
+        <div class="probe-note">
+          <strong>Zero flow for 10 days.</strong> Young trees enduring 2nd consecutive day at 35°C+ with no transpiration.
+          Forecast curves assume 29.9°C — real drying is 20%+ faster. Inspect for leaf scorch Monday AM.
+        </div>
+      </div>
+
+      <!-- BOTTOM PROBE -->
+      <div class="probe-card fault anim-enter" style="animation-delay:480ms">
+        <div class="probe-hdr">
+          <div>
+            <div class="probe-title">Bottom Probe (AC228108)</div>
+            <div class="probe-id">2 drip lines · 4-5yr trees · Indicators: <strong style="color:var(--status-crit)">3</strong>, -2 · 30d: 217 hrs</div>
+          </div>
+          <span class="pill pill-fault">FLOW FAULT</span>
+        </div>
+        <div class="probe-stats">
+          <div class="pstat">
+            <span class="pstat-lbl">Topsoil Now</span>
+            <span class="pstat-val c-amber">0-5 <span class="unit">mm</span></span>
+            <span class="pstat-sub">Indicator surged -1 to 3</span>
+          </div>
+          <div class="pstat">
+            <span class="pstat-lbl">Flow / Tree</span>
+            <span class="pstat-val c-red">~1.3 <span class="unit">L/hr</span></span>
+            <span class="pstat-sub">Was 6-7 · -80%</span>
+          </div>
+          <div class="pstat">
+            <span class="pstat-lbl">ETc Ratio</span>
+            <span class="pstat-val c-red">0.5 <span class="unit">/ 1.5</span></span>
+            <span class="pstat-sub">33% of target</span>
+          </div>
+        </div>
+        <div class="moisture-bar">
+          <svg width="100%" height="38" viewBox="0 0 460 38" preserveAspectRatio="none">
+            <rect x="0" y="5" width="65" height="19" rx="3" fill="url(#wet1)" />
+            <rect x="65" y="5" width="105" height="19" fill="url(#safe1)" />
+            <rect x="170" y="5" width="140" height="19" fill="url(#caut1)" />
+            <rect x="310" y="5" width="150" height="19" rx="3" fill="url(#stress1)" />
+            <line x1="170" y1="2" x2="170" y2="36" stroke="rgba(107,158,90,0.2)" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="310" y1="2" x2="310" y2="36" stroke="rgba(200,155,60,0.2)" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="110" y1="14" x2="290" y2="14" stroke="rgba(196,74,63,0.35)" stroke-width="1" stroke-dasharray="4,3" />
+            <polygon points="290,10 300,14 290,18" fill="rgba(196,74,63,0.45)" />
+            <text x="205" y="9" text-anchor="middle" font-size="7" fill="var(--status-crit)" font-family="JetBrains Mono" font-weight="600" opacity="0.7">stress by Mar 5-6 (real: faster)</text>
+            <circle cx="110" cy="14" r="9" fill="rgba(107,158,90,0.25)" stroke="var(--status-ok)" stroke-width="1.5" />
+            <text x="110" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
+            <text x="32" y="35" text-anchor="middle" font-size="8" fill="var(--status-info)" font-family="Outfit" font-weight="600" opacity="0.7">WET</text>
+            <text x="117" y="35" text-anchor="middle" font-size="8" fill="var(--status-ok)" font-family="Outfit" font-weight="600" opacity="0.7">SAFE</text>
+            <text x="240" y="35" text-anchor="middle" font-size="8" fill="var(--status-warn)" font-family="Outfit" font-weight="600" opacity="0.7">CAUTION</text>
+            <text x="385" y="35" text-anchor="middle" font-size="8" fill="var(--status-crit)" font-family="Outfit" font-weight="600" opacity="0.7">STRESS</text>
+          </svg>
+        </div>
+        <div class="probe-note">
+          <strong>Indicator jumped 4 points (-1 to 3) — rain buffer consumed in 1 heat day.</strong>
+          Deep soil (300-800mm) in gradual decline with no recharge. TKR at risk from oil-accumulation stress.
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="right-col">
+      <!-- 7-DAY FORECAST -->
+      <div class="forecast-card anim-enter" style="animation-delay:540ms">
+        <div class="section-title">7-Day Forecast — Pulse (18mm rain, caution: forecasts unreliable)</div>
+        <div class="forecast-grid">
+          <div class="fc-day heat today">
+            <span class="fc-dow">SUN</span>
+            <span class="fc-icon">🔥</span>
+            <span class="fc-temp" style="color:var(--status-crit)">35.4°</span>
+            <span class="fc-rain">0.0 mm</span>
+            <span class="fc-et" style="color:var(--status-crit)">ET ~4</span>
+          </div>
+          <div class="fc-day">
+            <span class="fc-dow">MON</span>
+            <span class="fc-icon">🌧️</span>
+            <span class="fc-temp">21.5°</span>
+            <span class="fc-rain" style="color:#6a9ec4;font-weight:800">6.4 mm</span>
+            <span class="fc-et">ET 1.0</span>
+          </div>
+          <div class="fc-day">
+            <span class="fc-dow">TUE</span>
+            <span class="fc-icon">⛅</span>
+            <span class="fc-temp">24.3°</span>
+            <span class="fc-rain">0.0 mm</span>
+            <span class="fc-et">ET 1.2</span>
+          </div>
+          <div class="fc-day">
+            <span class="fc-dow">WED</span>
+            <span class="fc-icon">☀️</span>
+            <span class="fc-temp">29.6°</span>
+            <span class="fc-rain">0.0 mm</span>
+            <span class="fc-et">ET 1.6</span>
+          </div>
+          <div class="fc-day heat">
+            <span class="fc-dow">THU</span>
+            <span class="fc-icon">🔥</span>
+            <span class="fc-temp" style="color:var(--status-crit)">35.1°</span>
+            <span class="fc-rain">0.0 mm</span>
+            <span class="fc-et" style="color:var(--status-crit)">ET 3.1</span>
+          </div>
+          <div class="fc-day heat">
+            <span class="fc-dow">FRI</span>
+            <span class="fc-icon">🔥</span>
+            <span class="fc-temp" style="color:var(--status-crit)">36.6°</span>
+            <span class="fc-rain">0.2 mm</span>
+            <span class="fc-et" style="color:var(--status-crit)">ET 3.9</span>
+          </div>
+          <div class="fc-day">
+            <span class="fc-dow">SAT</span>
+            <span class="fc-icon">🌧️</span>
+            <span class="fc-temp">30.6°</span>
+            <span class="fc-rain" style="color:#6a9ec4;font-weight:800">3.9 mm</span>
+            <span class="fc-et">ET 2.1</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RISK MATRIX -->
+      <div class="risk-card anim-enter" style="animation-delay:620ms">
+        <div class="section-title">Risk Matrix</div>
+        <table class="risk-table">
+          <thead>
+            <tr>
+              <th style="width:37%">Issue</th>
+              <th style="width:11%">Sev</th>
+              <th style="width:12%">When</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="risk-row sev-crit">
+              <td>Flow collapse — Day 10</td>
+              <td><span class="sev sev-c">CRIT</span></td>
+              <td><span class="urg-now">MON</span></td>
+              <td>Book irrigation tech TOMORROW AM</td>
+            </tr>
+            <tr class="risk-row sev-crit">
+              <td>Two-day heat 36.0 + 35.4°C</td>
+              <td><span class="sev sev-c">CRIT</span></td>
+              <td><span class="urg-now">NOW</span></td>
+              <td>Damage assessment Mon. Manual water if possible</td>
+            </tr>
+            <tr class="risk-row sev-crit">
+              <td>Thu-Fri heat 35.1 + 36.6°C</td>
+              <td><span class="sev sev-c">CRIT</span></td>
+              <td><span class="urg-week">4 DAYS</span></td>
+              <td>Flow MUST be restored by Wed or survival scenario</td>
+            </tr>
+            <tr class="risk-row sev-high">
+              <td>Bottom indicator surge (-1→3)</td>
+              <td><span class="sev sev-h">HIGH</span></td>
+              <td><span class="urg-now">24-48H</span></td>
+              <td>Rain buffer gone; Mon rain (6.4mm) may help</td>
+            </tr>
+            <tr class="risk-row sev-high">
+              <td>Young tree heat damage</td>
+              <td><span class="sev sev-h">HIGH</span></td>
+              <td><span class="urg-week">MON</span></td>
+              <td>Inspect canopy for scorch/wilt; kaolin spray</td>
+            </tr>
+            <tr class="risk-row sev-high">
+              <td>pH 5.28 / Al 1,247 ppm (Day 199)</td>
+              <td><span class="sev sev-h">HIGH</span></td>
+              <td><span class="urg-month">MARCH</span></td>
+              <td>Calcitic lime 2-3 t/ha + ZnSO₄ + Solubor</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOIL CHEMISTRY STRIP -->
+  <div class="soil-strip">
+    <div class="soil-card anim-enter" style="animation-delay:720ms">
+      <div class="soil-gauge">
+        <svg viewBox="0 0 72 72">
+          <circle cx="36" cy="36" r="29" class="soil-gauge-bg" />
+          <circle cx="36" cy="36" r="29" class="soil-gauge-fill" stroke="var(--status-crit)" stroke-dasharray="182.2" stroke-dashoffset="61.9" />
+        </svg>
+        <div class="soil-gauge-label">
+          <span class="soil-gauge-value c-red">5.28</span>
+          <span class="soil-gauge-unit">pH</span>
+        </div>
+      </div>
+      <div class="soil-meta">
+        <div class="soil-name">Soil pH</div>
+        <div class="soil-target">Target 6.0–6.5 · Day 199 uncorrected</div>
+        <div class="soil-action"><strong>Al toxicity 1,247 ppm</strong> · Roots can't access deep water</div>
+      </div>
+    </div>
+    <div class="soil-card anim-enter" style="animation-delay:780ms">
+      <div class="soil-gauge">
+        <svg viewBox="0 0 72 72">
+          <circle cx="36" cy="36" r="29" class="soil-gauge-bg" />
+          <circle cx="36" cy="36" r="29" class="soil-gauge-fill" stroke="var(--status-crit)" stroke-dasharray="182.2" stroke-dashoffset="167.6" />
+        </svg>
+        <div class="soil-gauge-label">
+          <span class="soil-gauge-value c-red">8%</span>
+          <span class="soil-gauge-unit">of target</span>
+        </div>
+      </div>
+      <div class="soil-meta">
+        <div class="soil-name">Zinc (Zn)</div>
+        <div class="soil-target">Day 199 · Compounding heat stress</div>
+        <div class="soil-action"><strong>ZnSO₄ 15-20 kg/ha</strong> banded after lime</div>
+      </div>
+    </div>
+    <div class="soil-card anim-enter" style="animation-delay:840ms">
+      <div class="soil-gauge">
+        <svg viewBox="0 0 72 72">
+          <circle cx="36" cy="36" r="29" class="soil-gauge-bg" />
+          <circle cx="36" cy="36" r="29" class="soil-gauge-fill" stroke="var(--status-warn)" stroke-dasharray="182.2" stroke-dashoffset="116.6" />
+        </svg>
+        <div class="soil-gauge-label">
+          <span class="soil-gauge-value c-amber">36%</span>
+          <span class="soil-gauge-unit">of target</span>
+        </div>
+      </div>
+      <div class="soil-meta">
+        <div class="soil-name">Boron (B)</div>
+        <div class="soil-target">Day 199 · Pre-flowering critical</div>
+        <div class="soil-action"><strong>Solubor 150 g/100L</strong> monthly foliar</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer anim-enter" style="animation-delay:900ms">
+    <span>Generated by Claude (macadamia-kzn-advisor) · 2026-03-01 12:30 SAST</span>
+    <span>Weather: Ecowitt API (live) · Probe: IrriCheck Pulse · Soil: Agrisol Aug 2025 · Sensor: ch1 32%</span>
+    <span>PRIORITY: Book irrigation tech MON · Assess heat damage · Restore flow by WED · Kaolin spray Top zone</span>
+  </div>
+
+</body>
+</html>
