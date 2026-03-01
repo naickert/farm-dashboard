@@ -188,72 +188,69 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: 4px; }
 
-    /* Iframe-embedded: hide redundant header, compact everything */
-    body.in-iframe { padding: 8px 10px 10px; gap: 5px; }
-    body.in-iframe .header-brand h1 { display: none; }
-    body.in-iframe .header-sub { font-size: 11px; padding-bottom: 0; }
-    body.in-iframe .header { padding-bottom: 0; }
-
     @media (max-width: 768px) {
-      body { height: auto; overflow: auto; padding: 10px 10px 10px; gap: 5px; }
-      .header { flex-direction: column; align-items: flex-start; gap: 4px; padding-bottom: 0; }
-      .header-brand { flex-direction: column; gap: 2px; }
-      .header-brand h1 { font-size: 18px; }
-      .header-sub { font-size: 11px; }
-      .badges { flex-wrap: wrap; gap: 4px; }
-      .badge { padding: 3px 8px; font-size: 9px; }
-      .alert { padding: 7px 12px; gap: 8px; }
-      .alert-text { font-size: 11px; line-height: 1.35; }
-      .alert-dot { width: 8px; height: 8px; }
-      .weather-row { grid-template-columns: repeat(3, 1fr); gap: 5px; }
-      .kpi { padding: 8px 10px; border-radius: 8px; }
-      .kpi-lbl { font-size: 8px; margin-bottom: 3px; letter-spacing: 1px; }
-      .kpi-val { font-size: 20px; }
-      .kpi-val sup { font-size: 10px; }
-      .kpi-sub { font-size: 9px; margin-top: 3px; }
-      .main-grid { grid-template-columns: 1fr; gap: 5px; }
-      .probe-card { flex: none; min-height: auto; padding: 10px 12px; gap: 6px; }
-      .probe-title { font-size: 13px; }
-      .probe-id { font-size: 9px; }
-      .pill { padding: 3px 8px; font-size: 8px; }
-      .probe-stats { gap: 5px; }
-      .pstat-lbl { font-size: 8px; }
-      .pstat-val { font-size: 18px; }
-      .pstat-val .unit { font-size: 11px; }
-      .pstat-sub { font-size: 9px; }
-      .moisture-bar { height: 32px; }
-      .probe-note { font-size: 10px; line-height: 1.4; }
-      .forecast-card { padding: 10px 12px; }
-      .section-title { font-size: 11px; margin-bottom: 6px; }
-      .forecast-grid { grid-template-columns: repeat(7, 1fr); gap: 3px; }
-      .fc-day { padding: 5px 2px; gap: 2px; }
-      .fc-dow { font-size: 8px; }
-      .fc-icon { font-size: 14px; }
-      .fc-temp { font-size: 11px; }
-      .fc-rain { font-size: 9px; }
-      .fc-et { font-size: 8px; }
-      .risk-card { padding: 10px 12px; }
-      .risk-table th { font-size: 8px; padding: 0 4px 4px; }
-      .risk-table td { font-size: 10px; padding: 5px 4px; }
+      body { height: auto; overflow: auto; padding: 6px 8px 8px; gap: 4px; }
+      /* Hide header — parent site already shows FARMCRAFT branding */
+      .header-brand { display: none; }
+      .header { padding-bottom: 0; gap: 0; }
+      .badges { flex-wrap: wrap; gap: 3px; }
+      .badge { padding: 3px 7px; font-size: 8.5px; letter-spacing: 0.4px; }
+      /* Alert — tight single line strip */
+      .alert { padding: 5px 10px; gap: 6px; border-radius: 2px 6px 6px 2px; border-left-width: 3px; }
+      .alert-text { font-size: 10px; line-height: 1.3; }
+      .alert-text strong { font-size: 10px; }
+      .alert-dot { width: 6px; height: 6px; }
+      .alert::before { display: none; }
+      /* KPI row — compact 3×2 */
+      .weather-row { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+      .kpi { padding: 6px 8px; border-radius: 6px; }
+      .kpi-lbl { font-size: 7.5px; margin-bottom: 2px; letter-spacing: 0.8px; }
+      .kpi-val { font-size: 18px; letter-spacing: -0.5px; }
+      .kpi-val sup { font-size: 9px; }
+      .kpi-sub { font-size: 8px; margin-top: 2px; line-height: 1.3; }
+      /* Main grid — single column */
+      .main-grid { grid-template-columns: 1fr; gap: 4px; }
+      /* Probe cards */
+      .probe-card { flex: none; min-height: auto; padding: 8px 10px; gap: 5px; }
+      .probe-title { font-size: 12px; }
+      .probe-id { font-size: 8px; margin-top: 1px; }
+      .pill { padding: 2px 6px; font-size: 7.5px; letter-spacing: 0.5px; }
+      .probe-stats { gap: 4px; }
+      .pstat-lbl { font-size: 7.5px; }
+      .pstat-val { font-size: 16px; }
+      .pstat-val .unit { font-size: 10px; }
+      .pstat-sub { font-size: 8px; }
+      .moisture-bar { height: 28px; }
+      .probe-note { font-size: 9.5px; line-height: 1.35; }
+      /* Forecast */
+      .forecast-card { padding: 8px 10px; }
+      .section-title { font-size: 10px; margin-bottom: 5px; }
+      .forecast-grid { grid-template-columns: repeat(7, 1fr); gap: 2px; }
+      .fc-day { padding: 4px 1px; gap: 1px; border-radius: 5px; }
+      .fc-dow { font-size: 7.5px; }
+      .fc-icon { font-size: 12px; }
+      .fc-temp { font-size: 10px; }
+      .fc-rain { font-size: 8px; }
+      .fc-et { font-size: 7px; }
+      /* Risk matrix */
+      .risk-card { padding: 8px 10px; }
+      .risk-table th { font-size: 7.5px; padding: 0 3px 3px; }
+      .risk-table td { font-size: 9px; padding: 4px 3px; }
       .risk-table td:last-child { display: none; }
-      .sev { font-size: 8px; padding: 2px 5px; }
-      .urg-now, .urg-week, .urg-month { font-size: 10px; }
-      .soil-strip { grid-template-columns: repeat(3, 1fr); gap: 5px; }
-      .soil-card { padding: 8px 10px; gap: 8px; flex-direction: column; align-items: flex-start; }
-      .soil-gauge { width: 48px; height: 48px; }
-      .soil-gauge-value { font-size: 14px; }
-      .soil-gauge-unit { font-size: 7px; }
-      .soil-name { font-size: 8px; }
-      .soil-target { font-size: 9px; }
-      .soil-action { font-size: 9px; }
-      .footer { flex-direction: column; gap: 3px; align-items: flex-start; padding-top: 0; }
-      .footer span { font-size: 9px; }
-    }
-    /* Iframe + mobile combined */
-    @media (max-width: 768px) {
-      body.in-iframe { padding: 6px 8px 8px; gap: 4px; }
-      body.in-iframe .header-brand { display: none; }
-      body.in-iframe .badges { gap: 3px; }
+      .sev { font-size: 7.5px; padding: 1px 4px; }
+      .urg-now, .urg-week, .urg-month { font-size: 9px; }
+      /* Soil strip — 3 across, compact */
+      .soil-strip { grid-template-columns: repeat(3, 1fr); gap: 4px; }
+      .soil-card { padding: 6px 8px; gap: 6px; }
+      .soil-gauge { width: 42px; height: 42px; }
+      .soil-gauge-value { font-size: 12px; }
+      .soil-gauge-unit { font-size: 6px; }
+      .soil-name { font-size: 7.5px; }
+      .soil-target { font-size: 8px; margin-top: 1px; }
+      .soil-action { font-size: 8px; margin-top: 2px; }
+      /* Footer */
+      .footer { flex-direction: column; gap: 2px; align-items: flex-start; padding-top: 0; }
+      .footer span { font-size: 8px; }
     }
     @media (min-width: 769px) and (max-width: 1024px) {
       .weather-row { grid-template-columns: repeat(3, 1fr); }
