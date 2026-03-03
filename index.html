@@ -603,5 +603,280 @@
     <span>PRIORITY: Restore irrigation TODAY · Check rain sensor · Pre-load by Wed · Kaolin spray before heat</span>
   </div>
 
+  <!-- LIVE DATA SCRIPT -->
+  <script>
+  (function() {
+    const ECOWITT = 'https://api.ecowitt.net/api/v3/device/real_time?application_key=61917B760A9801131EDFC4D326005F4B&api_key=f84b17b2-42eb-4243-b82f-fac0e0e2ac9b&imei=864431061936144&temp_unitid=1&pressure_unitid=3&wind_speed_unitid=6&rainfall_unitid=12&solar_irradiance_unitid=16&call_back=all';
+    const PULSE = 'https://www.irricheck.co.za/api/fairviewtheo.php?key=gFoPcviWAJWBUHK0okx7rd96s2iaBskXs1lsASBYURcZRiElf3iB1pKweueqJM80';
+    const REFRESH = 5 * 60 * 1000;
+    const DIRS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+
+    function compass(deg) { return DIRS[Math.round(parseFloat(deg) / 22.5) % 16]; }
+
+    function flash(el) {
+      el.style.transition = 'box-shadow 0.4s';
+      el.style.boxShadow = '0 0 12px rgba(196,163,76,0.25)';
+      setTimeout(() => { el.style.boxShadow = ''; }, 1200);
+    }
+
+    // Map topsoil mm to SVG x (0mm=refill at x≈150)
+    function mmToX(mm) {
+      const x = mm < 0 ? 150 + mm * 30 : 150 + mm * 48;
+      return Math.max(12, Math.min(448, x));
+    }
+
+    function valColor(mm) {
+      if (mm <= -2) return 'c-blue';
+      if (mm <= 0) return 'c-green';
+      if (mm <= 1.5) return 'c-amber';
+      return 'c-red';
+    }
+
+    function markerColors(x) {
+      if (x < 65) return ['rgba(90,138,176,0.3)', 'var(--status-info)'];
+      if (x < 170) return ['rgba(107,158,90,0.25)', 'var(--status-ok)'];
+      if (x < 310) return ['rgba(200,155,60,0.3)', 'var(--status-warn)'];
+      return ['rgba(196,74,63,0.35)', 'var(--status-crit)'];
+    }
+
+    async function update() {
+      const [eco, pulse] = await Promise.allSettled([
+        fetch(ECOWITT).then(r => r.json()),
+        fetch(PULSE).then(r => r.json())
+      ]);
+
+      if (eco.status === 'fulfilled' && eco.value?.data) updateEco(eco.value.data);
+      if (pulse.status === 'fulfilled' && pulse.value) updatePulse(pulse.value);
+      updateStatus(eco.status === 'fulfilled', pulse.status === 'fulfilled');
+    }
+
+    function updateEco(d) {
+      const k = document.querySelectorAll('.weather-row .kpi');
+
+      // Temperature
+      const temp = d.outdoor?.temperature?.value;
+      const feel = d.outdoor?.feels_like?.value;
+      if (temp && k[0]) {
+        k[0].querySelector('.kpi-val').innerHTML = parseFloat(temp).toFixed(1) + '<sup>°C</sup>';
+        if (feel) k[0].querySelector('.kpi-sub').textContent = 'Feels ' + parseFloat(feel).toFixed(1) + '°';
+        flash(k[0]);
+      }
+
+      // Humidity
+      const hum = d.outdoor?.humidity?.value;
+      const dew = d.outdoor?.dew_point?.value;
+      if (hum && k[1]) {
+        k[1].querySelector('.kpi-val').innerHTML = Math.round(parseFloat(hum)) + '<sup>%</sup>';
+        if (dew) k[1].querySelector('.kpi-sub').textContent = 'Dew ' + parseFloat(dew).toFixed(1) + '°C';
+        flash(k[1]);
+      }
+
+      // Rain Today
+      const rd = d.rainfall?.daily?.value;
+      const re = d.rainfall?.event?.value;
+      const rw = d.rainfall?.weekly?.value;
+      if (rd !== undefined && k[2]) {
+        k[2].querySelector('.kpi-val').innerHTML = parseFloat(rd).toFixed(1) + '<sup>mm</sup>';
+        const p = [];
+        if (re !== undefined) p.push('Event ' + parseFloat(re).toFixed(1));
+        if (rw !== undefined) p.push('Weekly ' + parseFloat(rw).toFixed(1) + ' mm');
+        if (p.length) k[2].querySelector('.kpi-sub').textContent = p.join(' · ');
+        flash(k[2]);
+      }
+
+      // Soil Moisture ch1
+      const sm = d.soil_ch1?.soilmoisture?.value;
+      if (sm && k[3]) {
+        const v = Math.round(parseFloat(sm));
+        k[3].querySelector('.kpi-val').innerHTML = v + '<sup>%</sup>';
+        const ve = k[3].querySelector('.kpi-val');
+        ve.className = 'kpi-val ' + (v >= 50 ? 'c-green' : v >= 40 ? 'c-amber' : 'c-red');
+        flash(k[3]);
+      }
+
+      // Wind
+      const ws = d.wind?.wind_speed?.value;
+      const wg = d.wind?.wind_gust?.value;
+      const wd = d.wind?.wind_direction?.value;
+      if (ws && k[4]) {
+        k[4].querySelector('.kpi-val').innerHTML = parseFloat(ws).toFixed(1) + '<sup>m/s</sup>';
+        const p = [];
+        if (wd) p.push(compass(wd) + ' (' + Math.round(parseFloat(wd)) + '°)');
+        if (wg) p.push('Gust ' + parseFloat(wg).toFixed(1));
+        if (p.length) k[4].querySelector('.kpi-sub').textContent = p.join(' · ');
+        flash(k[4]);
+      }
+
+      // Pressure
+      const pr = d.pressure?.relative?.value;
+      if (pr && k[5]) {
+        k[5].querySelector('.kpi-val').innerHTML = Math.round(parseFloat(pr)) + '<sup>hPa</sup>';
+        flash(k[5]);
+      }
+
+      // Rain YTD
+      const ry = d.rainfall?.yearly?.value;
+      const rm = d.rainfall?.monthly?.value;
+      if (ry && k[7]) {
+        k[7].querySelector('.kpi-val').innerHTML = Math.round(parseFloat(ry)) + '<sup>mm</sup>';
+        if (rm) k[7].querySelector('.kpi-sub').textContent = 'Mar: ' + parseFloat(rm).toFixed(1) + ' mm';
+        flash(k[7]);
+      }
+    }
+
+    function updatePulse(data) {
+      const rec = data.recommendation || {};
+      const readings = data.readings || {};
+      const cards = document.querySelectorAll('.probe-card');
+
+      ['Top', 'Bottom'].forEach((probe, idx) => {
+        const card = cards[idx];
+        if (!card) return;
+        const rd = readings[probe];
+        if (!rd || typeof rd !== 'object') return;
+
+        const ts = Object.keys(rd).sort();
+        if (!ts.length) return;
+        const latest = rd[ts[ts.length - 1]];
+        if (!latest) return;
+
+        const topsoil = parseFloat(latest.Topsoil);
+        const subsoil = parseFloat(latest.Bottomsoil);
+
+        // Update topsoil stat
+        const vals = card.querySelectorAll('.pstat-val');
+        const subs = card.querySelectorAll('.pstat-sub');
+        if (vals[0] && !isNaN(topsoil)) {
+          const sign = topsoil >= 0 ? '+' : '';
+          vals[0].className = 'pstat-val ' + valColor(topsoil);
+          vals[0].innerHTML = sign + topsoil.toFixed(2) + ' <span class="unit">mm</span>';
+          if (subs[0]) subs[0].textContent = topsoil > 0 ? 'ABOVE refill — drying' : 'Below refill (wet)';
+        }
+
+        // Update probe-id line with latest subsoil + indicators
+        const idEl = card.querySelector('.probe-id');
+        const prec = rec[probe];
+        if (idEl && prec) {
+          const indT = prec.deficit_top !== undefined ? prec.deficit_top : '?';
+          const indB = prec.deficit_bottom !== undefined ? prec.deficit_bottom : '?';
+          const subStr = !isNaN(subsoil) ? subsoil.toFixed(2) + 'mm' : '?';
+          // Build schedule
+          const dayNames = ['Mo','Tu','We','Th','Fr','Sa','Su'];
+          const sched = [];
+          for (let i = 1; i <= 7; i++) {
+            const v = prec['recom_day_' + i];
+            if (v && v !== '0' && v !== 0) sched.push(dayNames[(i - 1) % 7]);
+          }
+          const schedStr = sched.length ? sched.join('/') : 'None';
+          const indColor = parseInt(indT) > 0 ? 'var(--status-crit)' : 'var(--text-muted)';
+          const prefix = idx === 0
+            ? '1 drip line · Young trees 1-2yr'
+            : '2 drip lines · 4-5yr trees';
+          idEl.innerHTML = prefix + ' · Indicators: <strong style="color:' + indColor + '">' + indT + ', ' + indB + '</strong> · Subsoil: ' + subStr + ' · Sched: ' + schedStr;
+        }
+
+        // Update probe card status class based on topsoil
+        if (!isNaN(topsoil)) {
+          card.classList.remove('ok', 'warn', 'crit');
+          if (topsoil > 1) card.classList.add('crit');
+          else if (topsoil > 0) card.classList.add('warn');
+          else card.classList.add('ok');
+        }
+
+        // Update moisture bar marker
+        if (!isNaN(topsoil)) {
+          const svg = card.querySelector('.moisture-bar svg');
+          if (svg) {
+            const x = mmToX(topsoil);
+            const [fill, stroke] = markerColors(x);
+            const circles = svg.querySelectorAll('circle');
+            const texts = svg.querySelectorAll('text');
+            // Find the NOW marker circle (last circle)
+            if (circles.length) {
+              const marker = circles[circles.length - 1];
+              marker.setAttribute('cx', x);
+              marker.setAttribute('fill', fill);
+              marker.setAttribute('stroke', stroke);
+            }
+            // Move NOW label
+            for (const t of texts) {
+              if (t.textContent === 'NOW') t.setAttribute('x', x);
+            }
+          }
+        }
+
+        // Update ET from Eto (search backwards in readings)
+        if (probe === 'Top') {
+          for (let i = ts.length - 1; i >= 0; i--) {
+            const eto = rd[ts[i]].Eto;
+            if (eto !== undefined && eto !== null && eto !== '') {
+              const k = document.querySelectorAll('.weather-row .kpi');
+              if (k[6]) {
+                k[6].querySelector('.kpi-val').innerHTML = parseFloat(eto).toFixed(1) + '<sup>mm/d</sup>';
+                flash(k[6]);
+              }
+              break;
+            }
+          }
+        }
+
+        flash(card);
+      });
+
+      // Update forecast
+      const fc = rec.forecast;
+      if (fc) {
+        const days = document.querySelectorAll('.fc-day');
+        for (let i = 0; i < days.length && i < 7; i++) {
+          const f = fc[String(i + 1)];
+          if (!f) continue;
+          const te = days[i].querySelector('.fc-temp');
+          const re = days[i].querySelector('.fc-rain');
+          if (te && f.temp !== undefined) {
+            const t = parseFloat(f.temp);
+            te.textContent = t.toFixed(1) + '°';
+            te.style.color = t >= 33 ? 'var(--status-crit)' : '';
+          }
+          if (re && f.rain !== undefined) {
+            const r = parseFloat(f.rain);
+            re.textContent = r > 0 ? r.toFixed(1) + ' mm' : '0.0 mm';
+            if (r > 2) { re.style.color = '#6a9ec4'; re.style.fontWeight = '800'; }
+          }
+        }
+      }
+    }
+
+    function updateStatus(eOk, pOk) {
+      const now = new Date();
+      const t = now.toLocaleTimeString('en-ZA', { hour:'2-digit', minute:'2-digit', hour12:false, timeZone:'Africa/Johannesburg' });
+      const src = [eOk && 'Ecowitt', pOk && 'Pulse'].filter(Boolean).join(' + ');
+
+      // Footer status
+      let el = document.getElementById('live-ts');
+      if (!el) {
+        el = document.createElement('span');
+        el.id = 'live-ts';
+        el.style.cssText = 'font-size:10px;color:var(--status-ok);font-family:"JetBrains Mono",monospace;font-weight:600;';
+        document.querySelector('.footer').appendChild(el);
+      }
+      el.textContent = 'LIVE · ' + src + ' · updated ' + t;
+
+      // Header LIVE badge
+      if (!document.getElementById('live-badge')) {
+        const b = document.createElement('span');
+        b.id = 'live-badge';
+        b.className = 'badge';
+        b.style.cssText = 'background:rgba(107,158,90,0.12);color:#6b9e5a;border:1px solid rgba(107,158,90,0.3);animation:dotBreathe 3s ease-in-out infinite;';
+        b.textContent = 'LIVE';
+        document.querySelector('.badges').appendChild(b);
+      }
+    }
+
+    // Run on load + every 5 min
+    update();
+    setInterval(update, REFRESH);
+  })();
+  </script>
+
 </body>
 </html>
