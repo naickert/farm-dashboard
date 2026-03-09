@@ -141,10 +141,10 @@
     .pill-ok { background: var(--status-ok-dim); color: var(--status-ok); border: 1px solid rgba(107, 158, 90, 0.2); }
     .pill-crit { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 74, 63, 0.2); }
     .pill-warn { background: var(--status-warn-dim); color: var(--status-warn); border: 1px solid rgba(200, 155, 60, 0.2); }
-    .probe-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; flex-shrink: 0; }
+    .probe-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; flex-shrink: 0; }
     .pstat { display: flex; flex-direction: column; gap: 1px; }
     .pstat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
-    .pstat-val { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; line-height: 1.15; }
+    .pstat-val { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; line-height: 1.15; }
     .pstat-val .unit { font-size: 13px; font-weight: 400; opacity: 0.5; }
     .pstat-sub { font-size: 10px; color: var(--text-muted); font-weight: 400; }
     .moisture-bar { flex-shrink: 0; position: relative; height: 38px; }
@@ -225,6 +225,7 @@
       .kpi-val { font-size: 20px; }
       .main-grid { grid-template-columns: 1fr; }
       .probe-card { flex: none; }
+      .probe-stats { grid-template-columns: repeat(2, 1fr); }
       .forecast-grid { grid-template-columns: repeat(4, 1fr); }
       .risk-table td:last-child { display: none; }
       .soil-strip { grid-template-columns: 1fr; }
@@ -327,6 +328,11 @@
             <span class="pstat-sub">Wet — rain buffer zone</span>
           </div>
           <div class="pstat">
+            <span class="pstat-lbl">Subsoil Now</span>
+            <span class="pstat-val c-blue">-0.60 <span class="unit">mm</span></span>
+            <span class="pstat-sub">Adequate — near FC</span>
+          </div>
+          <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
             <span class="pstat-val c-red">0.23 <span class="unit">UF</span></span>
             <span class="pstat-sub">No irrigation detected</span>
@@ -384,7 +390,12 @@
           <div class="pstat">
             <span class="pstat-lbl">Topsoil Now</span>
             <span class="pstat-val c-green">+2.19 <span class="unit">mm</span></span>
-            <span class="pstat-sub">Rain buffer — DRYING +1.08mm/d</span>
+            <span class="pstat-sub">Rain buffer — DRYING</span>
+          </div>
+          <div class="pstat">
+            <span class="pstat-lbl">Subsoil Now</span>
+            <span class="pstat-val c-green">+0.34 <span class="unit">mm</span></span>
+            <span class="pstat-sub">Near refill — thin reserve</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
@@ -742,7 +753,7 @@
         const topsoil = parseFloat(latest.Topsoil);
         const subsoil = parseFloat(latest.Bottomsoil);
 
-        // Update topsoil stat
+        // Update topsoil stat (index 0)
         const vals = card.querySelectorAll('.pstat-val');
         const subs = card.querySelectorAll('.pstat-sub');
         if (vals[0] && !isNaN(topsoil)) {
@@ -750,6 +761,14 @@
           vals[0].className = 'pstat-val ' + valColor(topsoil);
           vals[0].innerHTML = sign + topsoil.toFixed(2) + ' <span class="unit">mm</span>';
           if (subs[0]) subs[0].textContent = topsoil <= 0 ? 'Wet' : topsoil <= 6 ? 'Rain buffer' : topsoil <= 20 ? 'Refill zone' : 'STRESS';
+        }
+
+        // Update subsoil stat (index 1)
+        if (vals[1] && !isNaN(subsoil)) {
+          const sign = subsoil >= 0 ? '+' : '';
+          vals[1].className = 'pstat-val ' + valColor(subsoil);
+          vals[1].innerHTML = sign + subsoil.toFixed(2) + ' <span class="unit">mm</span>';
+          if (subs[1]) subs[1].textContent = subsoil <= 0 ? 'Adequate' : subsoil <= 6 ? 'Near refill' : subsoil <= 20 ? 'Depleting' : 'CRITICAL';
         }
 
         // Update probe-id line with latest subsoil + indicators
