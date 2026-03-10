@@ -141,7 +141,7 @@
     .pill-ok { background: var(--status-ok-dim); color: var(--status-ok); border: 1px solid rgba(107, 158, 90, 0.2); }
     .pill-crit { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 74, 63, 0.2); }
     .pill-warn { background: var(--status-warn-dim); color: var(--status-warn); border: 1px solid rgba(200, 155, 60, 0.2); }
-    .probe-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; flex-shrink: 0; }
+    .probe-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; flex-shrink: 0; }
     .pstat { display: flex; flex-direction: column; gap: 1px; }
     .pstat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
     .pstat-val { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; line-height: 1.15; }
@@ -327,6 +327,11 @@
             <span class="pstat-sub">Below refill (ideal)</span>
           </div>
           <div class="pstat">
+            <span class="pstat-lbl">Subsoil Now</span>
+            <span class="pstat-val c-blue">-0.52 <span class="unit">mm</span></span>
+            <span class="pstat-sub">Below refill (adequate)</span>
+          </div>
+          <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
             <span class="pstat-val c-amber">0.24 <span class="unit">L/hr</span></span>
             <span class="pstat-sub">40% of 0.6 target</span>
@@ -384,6 +389,11 @@
             <span class="pstat-lbl">Topsoil Now</span>
             <span class="pstat-val c-red">+5.19 <span class="unit">mm</span></span>
             <span class="pstat-sub">ABOVE refill — accelerating</span>
+          </div>
+          <div class="pstat">
+            <span class="pstat-lbl">Subsoil Now</span>
+            <span class="pstat-val c-amber">+0.53 <span class="unit">mm</span></span>
+            <span class="pstat-sub">Above refill — drying</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
@@ -738,6 +748,12 @@
           vals[0].className = 'pstat-val ' + valColor(topsoil);
           vals[0].innerHTML = sign + topsoil.toFixed(2) + ' <span class="unit">mm</span>';
           if (subs[0]) subs[0].textContent = topsoil > 0 ? 'ABOVE refill — drying' : 'Below refill (ideal)';
+        }
+        if (vals[1] && !isNaN(subsoil)) {
+          const sign = subsoil >= 0 ? '+' : '';
+          vals[1].className = 'pstat-val ' + valColor(subsoil);
+          vals[1].innerHTML = sign + subsoil.toFixed(2) + ' <span class="unit">mm</span>';
+          if (subs[1]) subs[1].textContent = subsoil > 0 ? 'Above refill — drying' : 'Below refill (adequate)';
         }
 
         const idEl = card.querySelector('.probe-id');
