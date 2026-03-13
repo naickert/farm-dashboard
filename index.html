@@ -10,26 +10,26 @@
     rel="stylesheet">
   <style>
     :root {
-      --bg-deep: #080a0c;
-      --bg-card: #0e1215;
-      --bg-card-raised: #141a1e;
-      --border-subtle: rgba(74, 158, 196, 0.08);
-      --border-medium: rgba(74, 158, 196, 0.16);
-      --border-strong: rgba(74, 158, 196, 0.26);
-      --text-primary: #d8e4ed;
-      --text-secondary: #6e808a;
-      --text-muted: #4a5660;
-      --accent-gold: #4a9ec4;
-      --accent-gold-bright: #60b8d8;
-      --accent-gold-dim: rgba(74, 158, 196, 0.10);
-      --status-ok: #5aaa8e;
-      --status-ok-dim: rgba(90, 170, 142, 0.12);
-      --status-warn: #c4a34c;
-      --status-warn-dim: rgba(196, 163, 76, 0.12);
-      --status-crit: #c45a5a;
-      --status-crit-dim: rgba(196, 90, 90, 0.12);
-      --status-info: #4a9ec4;
-      --status-info-dim: rgba(74, 158, 196, 0.10);
+      --bg-deep: #0a0908;
+      --bg-card: #13120f;
+      --bg-card-raised: #181610;
+      --border-subtle: rgba(196, 163, 76, 0.06);
+      --border-medium: rgba(196, 163, 76, 0.12);
+      --border-strong: rgba(196, 163, 76, 0.22);
+      --text-primary: #ede8df;
+      --text-secondary: #8a8477;
+      --text-muted: #5a564e;
+      --accent-gold: #c4a34c;
+      --accent-gold-bright: #dbb960;
+      --accent-gold-dim: rgba(196, 163, 76, 0.10);
+      --status-ok: #6b9e5a;
+      --status-ok-dim: rgba(107, 158, 90, 0.12);
+      --status-warn: #c89b3c;
+      --status-warn-dim: rgba(200, 155, 60, 0.12);
+      --status-crit: #c44a3f;
+      --status-crit-dim: rgba(196, 74, 63, 0.12);
+      --status-info: #5a8ab0;
+      --status-info-dim: rgba(90, 138, 176, 0.10);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -53,7 +53,7 @@
       inset: 0;
       z-index: 9999;
       pointer-events: none;
-      opacity: 0.013;
+      opacity: 0.025;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 200px 200px;
     }
@@ -63,10 +63,10 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: 0.036;
+      opacity: 0.018;
       background:
-        radial-gradient(ellipse 900px 600px at 20% 30%, rgba(74, 158, 196, 0.3), transparent),
-        radial-gradient(ellipse 600px 800px at 80% 70%, rgba(196, 90, 90, 0.15), transparent);
+        radial-gradient(ellipse 900px 600px at 20% 30%, rgba(196, 163, 76, 0.3), transparent),
+        radial-gradient(ellipse 600px 800px at 80% 70%, rgba(196, 74, 63, 0.15), transparent);
     }
 
     @keyframes enterUp {
@@ -74,12 +74,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
     @keyframes alertPulse {
-      0%, 100% { border-left-color: var(--status-crit); box-shadow: inset 4px 0 16px -4px rgba(196, 90, 90, 0.15); }
-      50% { border-left-color: #d47070; box-shadow: inset 4px 0 24px -4px rgba(196, 90, 90, 0.3); }
+      0%, 100% { border-left-color: var(--status-crit); box-shadow: inset 4px 0 16px -4px rgba(196, 74, 63, 0.15); }
+      50% { border-left-color: #d4605a; box-shadow: inset 4px 0 24px -4px rgba(196, 74, 63, 0.3); }
     }
     @keyframes dotBreathe {
-      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(196, 90, 90, 0.6); }
-      50% { opacity: 0.7; transform: scale(1.15); box-shadow: 0 0 12px 4px rgba(196, 90, 90, 0.15); }
+      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(196, 74, 63, 0.6); }
+      50% { opacity: 0.7; transform: scale(1.15); box-shadow: 0 0 12px 4px rgba(196, 74, 63, 0.15); }
     }
     .anim-enter { animation: enterUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
@@ -92,21 +92,21 @@
     .header-sub strong { color: var(--text-primary); font-weight: 600; }
     .badges { display: flex; gap: 8px; align-items: center; }
     .badge { padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
-    .badge-crit { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 90, 90, 0.3); }
-    .badge-warn { background: var(--status-warn-dim); color: var(--status-warn); border: 1px solid rgba(196, 163, 76, 0.3); }
-    .badge-date { background: var(--accent-gold-dim); color: var(--accent-gold); border: 1px solid rgba(74, 158, 196, 0.15); }
+    .badge-crit { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 74, 63, 0.3); }
+    .badge-warn { background: var(--status-warn-dim); color: var(--status-warn); border: 1px solid rgba(200, 155, 60, 0.3); }
+    .badge-date { background: var(--accent-gold-dim); color: var(--accent-gold); border: 1px solid rgba(196, 163, 76, 0.15); }
 
     /* ALERT */
-    .alert { background: linear-gradient(90deg, rgba(196, 90, 90, 0.08) 0%, rgba(196, 90, 90, 0.02) 100%); border: 1px solid rgba(196, 90, 90, 0.12); border-left: 4px solid var(--status-crit); border-radius: 2px 14px 14px 2px; padding: 10px 20px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; animation: alertPulse 3s ease-in-out infinite; position: relative; overflow: hidden; }
-    .alert::before { content: ''; position: absolute; inset: 0; opacity: 0.03; background: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(196, 90, 90, 0.5) 8px, rgba(196, 90, 90, 0.5) 9px); }
+    .alert { background: linear-gradient(90deg, rgba(196, 74, 63, 0.08) 0%, rgba(196, 74, 63, 0.02) 100%); border: 1px solid rgba(196, 74, 63, 0.12); border-left: 4px solid var(--status-crit); border-radius: 2px 10px 10px 2px; padding: 10px 20px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; animation: alertPulse 3s ease-in-out infinite; position: relative; overflow: hidden; }
+    .alert::before { content: ''; position: absolute; inset: 0; opacity: 0.03; background: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(196, 74, 63, 0.5) 8px, rgba(196, 74, 63, 0.5) 9px); }
     .alert-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--status-crit); flex-shrink: 0; animation: dotBreathe 2s ease-in-out infinite; position: relative; z-index: 1; }
-    .alert-text { font-size: 13px; font-weight: 400; color: #c4a0a0; line-height: 1.45; position: relative; z-index: 1; }
-    .alert-text strong { color: #d47070; font-weight: 700; }
+    .alert-text { font-size: 13px; font-weight: 400; color: #d4a09a; line-height: 1.45; position: relative; z-index: 1; }
+    .alert-text strong { color: #e86b62; font-weight: 700; }
 
     /* KPI ROW — 8 cards */
     .weather-row { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; flex-shrink: 0; }
-    .kpi { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 10px 12px; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s; position: relative; }
-    .kpi::after { content: ''; position: absolute; top: 0; left: 14px; right: 14px; height: 1px; background: linear-gradient(90deg, transparent, var(--border-medium), transparent); opacity: 0; transition: opacity 0.3s; }
+    .kpi { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 10px 12px; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s; position: relative; }
+    .kpi::after { content: ''; position: absolute; top: 0; left: 12px; right: 12px; height: 1px; background: linear-gradient(90deg, transparent, var(--border-medium), transparent); opacity: 0; transition: opacity 0.3s; }
     .kpi:hover { transform: translateY(-2px); border-color: var(--border-medium); }
     .kpi:hover::after { opacity: 1; }
     .kpi-lbl { font-size: 9px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1.1px; margin-bottom: 4px; }
@@ -116,31 +116,31 @@
 
     /* COLOURS */
     .c-gold { color: var(--accent-gold-bright); }
-    .c-green { color: #6abea0; }
-    .c-amber { color: #d4a860; }
-    .c-blue { color: #5aaed4; }
-    .c-orange { color: #d49060; }
-    .c-purple { color: #9a8ec8; }
-    .c-red { color: #d47070; }
-    .c-teal { color: #5abea8; }
+    .c-green { color: #7db06a; }
+    .c-amber { color: #d4a045; }
+    .c-blue { color: #6a9ec4; }
+    .c-orange { color: #d48a45; }
+    .c-purple { color: #9a84b8; }
+    .c-red { color: #c4605a; }
+    .c-teal { color: #5aaa9e; }
 
     /* MAIN GRID */
     .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; flex: 1; min-height: 0; }
     .probes-col { display: flex; flex-direction: column; gap: 9px; min-height: 0; }
 
     /* PROBE CARDS */
-    .probe-card { background: var(--bg-card); border-radius: 14px; padding: 14px 18px; flex: 1; display: flex; flex-direction: column; gap: 8px; min-height: 0; overflow: hidden; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1); }
+    .probe-card { background: var(--bg-card); border-radius: 10px; padding: 14px 18px; flex: 1; display: flex; flex-direction: column; gap: 8px; min-height: 0; overflow: hidden; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1); }
     .probe-card:hover { transform: translateY(-1px); }
-    .probe-card.ok { border: 1px solid rgba(90, 170, 142, 0.15); border-left: 3px solid var(--status-ok); border-radius: 2px 14px 14px 2px; }
-    .probe-card.warn { border: 1px solid rgba(196, 163, 76, 0.15); border-left: 3px solid var(--status-warn); border-radius: 2px 14px 14px 2px; }
-    .probe-card.crit { border: 1px solid rgba(196, 90, 90, 0.15); border-left: 3px solid var(--status-crit); border-radius: 2px 14px 14px 2px; }
+    .probe-card.ok { border: 1px solid rgba(107, 158, 90, 0.15); border-left: 3px solid var(--status-ok); border-radius: 2px 10px 10px 2px; }
+    .probe-card.warn { border: 1px solid rgba(200, 155, 60, 0.15); border-left: 3px solid var(--status-warn); border-radius: 2px 10px 10px 2px; }
+    .probe-card.crit { border: 1px solid rgba(196, 74, 63, 0.15); border-left: 3px solid var(--status-crit); border-radius: 2px 10px 10px 2px; }
     .probe-hdr { display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
     .probe-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--text-primary); }
     .probe-id { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
     .pill { padding: 4px 11px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.8px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
-    .pill-ok { background: var(--status-ok-dim); color: var(--status-ok); border: 1px solid rgba(90, 170, 142, 0.2); }
-    .pill-crit { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 90, 90, 0.2); }
-    .pill-warn { background: var(--status-warn-dim); color: var(--status-warn); border: 1px solid rgba(196, 163, 76, 0.2); }
+    .pill-ok { background: var(--status-ok-dim); color: var(--status-ok); border: 1px solid rgba(107, 158, 90, 0.2); }
+    .pill-crit { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 74, 63, 0.2); }
+    .pill-warn { background: var(--status-warn-dim); color: var(--status-warn); border: 1px solid rgba(200, 155, 60, 0.2); }
     .probe-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; flex-shrink: 0; }
     .pstat { display: flex; flex-direction: column; gap: 1px; }
     .pstat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
@@ -153,14 +153,14 @@
 
     /* RIGHT COLUMN */
     .right-col { display: flex; flex-direction: column; gap: 9px; min-height: 0; }
-    .forecast-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 12px 18px; flex-shrink: 0; }
+    .forecast-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 12px 18px; flex-shrink: 0; }
     .section-title { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; color: var(--accent-gold); letter-spacing: 0.3px; margin-bottom: 9px; display: flex; align-items: center; gap: 10px; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-medium), transparent); }
     .forecast-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
-    .fc-day { background: rgba(255, 255, 255, 0.015); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 7px 3px; text-align: center; display: flex; flex-direction: column; gap: 3px; align-items: center; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s, border-color 0.3s; }
+    .fc-day { background: rgba(255, 255, 255, 0.015); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 7px 3px; text-align: center; display: flex; flex-direction: column; gap: 3px; align-items: center; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s, border-color 0.3s; }
     .fc-day:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.025); border-color: var(--border-medium); }
-    .fc-day.today { border-color: rgba(74, 158, 196, 0.25); background: var(--accent-gold-dim); box-shadow: 0 2px 12px rgba(74, 158, 196, 0.06); }
-    .fc-day.heat { border-color: rgba(196, 90, 90, 0.3); background: var(--status-crit-dim); box-shadow: 0 2px 12px rgba(196, 90, 90, 0.08); }
+    .fc-day.today { border-color: rgba(196, 163, 76, 0.25); background: var(--accent-gold-dim); box-shadow: 0 2px 12px rgba(196, 163, 76, 0.06); }
+    .fc-day.heat { border-color: rgba(196, 74, 63, 0.3); background: var(--status-crit-dim); box-shadow: 0 2px 12px rgba(196, 74, 63, 0.08); }
     .fc-dow { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; }
     .fc-day.today .fc-dow { color: var(--accent-gold); }
     .fc-day.heat .fc-dow { color: var(--status-crit); }
@@ -170,7 +170,7 @@
     .fc-et { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); }
 
     /* RISK */
-    .risk-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 12px 18px; flex: 1; min-height: 0; overflow-y: auto; }
+    .risk-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 12px 18px; flex: 1; min-height: 0; overflow-y: auto; }
     .risk-table { width: 100%; border-collapse: separate; border-spacing: 0 3px; }
     .risk-table th { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; padding: 0 8px 5px; text-align: left; }
     .risk-table tr.risk-row { transition: background 0.2s; }
@@ -179,11 +179,11 @@
     .risk-table tr.risk-row td:first-child { border-left: 3px solid transparent; border-radius: 2px 0 0 2px; padding-left: 12px; }
     .risk-table tr.risk-row td:last-child { border-radius: 0 2px 2px 0; }
     .risk-table tr.risk-row.sev-crit td:first-child { border-left-color: var(--status-crit); }
-    .risk-table tr.risk-row.sev-high td:first-child { border-left-color: #d48050; }
+    .risk-table tr.risk-row.sev-high td:first-child { border-left-color: #d47040; }
     .risk-table tr.risk-row.sev-med td:first-child { border-left-color: var(--status-warn); }
     .sev { padding: 2px 7px; border-radius: 3px; font-size: 10px; font-weight: 800; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; white-space: nowrap; }
-    .sev-c { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 90, 90, 0.2); }
-    .sev-h { background: rgba(212, 128, 80, 0.12); color: #d48050; }
+    .sev-c { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 74, 63, 0.2); }
+    .sev-h { background: rgba(212, 112, 64, 0.12); color: #d47040; }
     .sev-m { background: var(--status-warn-dim); color: var(--status-warn); }
     .urg-now { color: var(--status-crit); font-weight: 800; font-size: 11px; font-family: 'JetBrains Mono', monospace; }
     .urg-week { color: var(--status-warn); font-weight: 600; font-size: 11px; font-family: 'JetBrains Mono', monospace; }
@@ -191,7 +191,7 @@
 
     /* SOIL STRIP */
     .soil-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; flex-shrink: 0; }
-    .soil-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; gap: 14px; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s; }
+    .soil-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 14px; transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s; }
     .soil-card:hover { transform: translateY(-1px); border-color: var(--border-medium); }
     .soil-gauge { width: 66px; height: 66px; flex-shrink: 0; position: relative; }
     .soil-gauge svg { width: 100%; height: 100%; transform: rotate(-90deg); }
@@ -347,24 +347,24 @@
           <!-- Top: -2.16mm → x = (-2.16+5)*460/30 = 43.5 -->
           <svg width="100%" height="38" viewBox="0 0 460 38" preserveAspectRatio="none">
             <defs>
-              <linearGradient id="wet1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(74,158,196,0.2)" /><stop offset="100%" stop-color="rgba(74,158,196,0.1)" /></linearGradient>
-              <linearGradient id="safe1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(90,170,142,0.12)" /><stop offset="100%" stop-color="rgba(90,170,142,0.08)" /></linearGradient>
-              <linearGradient id="caut1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(196,163,76,0.10)" /><stop offset="100%" stop-color="rgba(196,163,76,0.06)" /></linearGradient>
-              <linearGradient id="stress1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(196,90,90,0.12)" /><stop offset="100%" stop-color="rgba(196,90,90,0.18)" /></linearGradient>
+              <linearGradient id="wet1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(90,138,176,0.2)" /><stop offset="100%" stop-color="rgba(90,138,176,0.1)" /></linearGradient>
+              <linearGradient id="safe1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(107,158,90,0.12)" /><stop offset="100%" stop-color="rgba(107,158,90,0.08)" /></linearGradient>
+              <linearGradient id="caut1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(200,155,60,0.10)" /><stop offset="100%" stop-color="rgba(200,155,60,0.06)" /></linearGradient>
+              <linearGradient id="stress1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(196,74,63,0.12)" /><stop offset="100%" stop-color="rgba(196,74,63,0.18)" /></linearGradient>
             </defs>
             <rect x="0" y="5" width="77" height="19" rx="3" fill="url(#wet1)" />
             <rect x="77" y="5" width="92" height="19" fill="url(#safe1)" />
             <rect x="169" y="5" width="214" height="19" fill="url(#caut1)" />
             <rect x="383" y="5" width="77" height="19" rx="3" fill="url(#stress1)" />
-            <line x1="77" y1="2" x2="77" y2="36" stroke="rgba(90,170,142,0.2)" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="169" y1="2" x2="169" y2="36" stroke="rgba(196,163,76,0.2)" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="383" y1="2" x2="383" y2="36" stroke="rgba(196,90,90,0.2)" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="77" y1="2" x2="77" y2="36" stroke="rgba(107,158,90,0.2)" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="169" y1="2" x2="169" y2="36" stroke="rgba(200,155,60,0.2)" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="383" y1="2" x2="383" y2="36" stroke="rgba(196,74,63,0.2)" stroke-width="1" stroke-dasharray="2,2" />
             <!-- Slow drying trend arrow (stable, minimal movement) -->
-            <line x1="44" y1="14" x2="72" y2="14" stroke="rgba(90,170,142,0.3)" stroke-width="1" stroke-dasharray="4,3" />
-            <polygon points="72,11 78,14 72,17" fill="rgba(90,170,142,0.3)" />
+            <line x1="44" y1="14" x2="72" y2="14" stroke="rgba(107,158,90,0.3)" stroke-width="1" stroke-dasharray="4,3" />
+            <polygon points="72,11 78,14 72,17" fill="rgba(107,158,90,0.3)" />
             <text x="60" y="9" text-anchor="middle" font-size="7" fill="var(--status-ok)" font-family="JetBrains Mono" font-weight="600" opacity="0.7">3 day buffer</text>
             <!-- NOW marker at x=44 -->
-            <circle cx="44" cy="14" r="9" fill="rgba(74,158,196,0.3)" stroke="var(--status-info)" stroke-width="1.5" />
+            <circle cx="44" cy="14" r="9" fill="rgba(90,138,176,0.3)" stroke="var(--status-info)" stroke-width="1.5" />
             <text x="44" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
             <text x="38" y="35" text-anchor="middle" font-size="8" fill="var(--status-info)" font-family="Outfit" font-weight="600" opacity="0.7">WET</text>
             <text x="123" y="35" text-anchor="middle" font-size="8" fill="var(--status-ok)" font-family="Outfit" font-weight="600" opacity="0.7">SAFE</text>
@@ -413,24 +413,24 @@
           <!-- Bottom: +6.33mm → x = (6.33+5)*460/30 = 173.7 -->
           <svg width="100%" height="38" viewBox="0 0 460 38" preserveAspectRatio="none">
             <defs>
-              <linearGradient id="wet2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(74,158,196,0.2)" /><stop offset="100%" stop-color="rgba(74,158,196,0.1)" /></linearGradient>
-              <linearGradient id="safe2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(90,170,142,0.12)" /><stop offset="100%" stop-color="rgba(90,170,142,0.08)" /></linearGradient>
-              <linearGradient id="caut2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(196,163,76,0.10)" /><stop offset="100%" stop-color="rgba(196,163,76,0.06)" /></linearGradient>
-              <linearGradient id="stress2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(196,90,90,0.12)" /><stop offset="100%" stop-color="rgba(196,90,90,0.18)" /></linearGradient>
+              <linearGradient id="wet2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(90,138,176,0.2)" /><stop offset="100%" stop-color="rgba(90,138,176,0.1)" /></linearGradient>
+              <linearGradient id="safe2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(107,158,90,0.12)" /><stop offset="100%" stop-color="rgba(107,158,90,0.08)" /></linearGradient>
+              <linearGradient id="caut2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(200,155,60,0.10)" /><stop offset="100%" stop-color="rgba(200,155,60,0.06)" /></linearGradient>
+              <linearGradient id="stress2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(196,74,63,0.12)" /><stop offset="100%" stop-color="rgba(196,74,63,0.18)" /></linearGradient>
             </defs>
             <rect x="0" y="5" width="77" height="19" rx="3" fill="url(#wet2)" />
             <rect x="77" y="5" width="92" height="19" fill="url(#safe2)" />
             <rect x="169" y="5" width="214" height="19" fill="url(#caut2)" />
             <rect x="383" y="5" width="77" height="19" rx="3" fill="url(#stress2)" />
-            <line x1="77" y1="2" x2="77" y2="36" stroke="rgba(90,170,142,0.2)" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="169" y1="2" x2="169" y2="36" stroke="rgba(196,163,76,0.2)" stroke-width="1" stroke-dasharray="2,2" />
-            <line x1="383" y1="2" x2="383" y2="36" stroke="rgba(196,90,90,0.2)" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="77" y1="2" x2="77" y2="36" stroke="rgba(107,158,90,0.2)" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="169" y1="2" x2="169" y2="36" stroke="rgba(200,155,60,0.2)" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="383" y1="2" x2="383" y2="36" stroke="rgba(196,74,63,0.2)" stroke-width="1" stroke-dasharray="2,2" />
             <!-- Drying trend arrow toward stress — +3.7mm/day, reaches +13.7 in 2d → x=287 -->
-            <line x1="174" y1="14" x2="280" y2="14" stroke="rgba(196,90,90,0.4)" stroke-width="1" stroke-dasharray="4,3" />
-            <polygon points="280,10 290,14 280,18" fill="rgba(196,90,90,0.5)" />
+            <line x1="174" y1="14" x2="280" y2="14" stroke="rgba(196,74,63,0.4)" stroke-width="1" stroke-dasharray="4,3" />
+            <polygon points="280,10 290,14 280,18" fill="rgba(196,74,63,0.5)" />
             <text x="230" y="9" text-anchor="middle" font-size="7" fill="var(--status-crit)" font-family="JetBrains Mono" font-weight="600" opacity="0.8">+13mm by Sun without irrig</text>
             <!-- NOW marker at x=174 -->
-            <circle cx="174" cy="14" r="9" fill="rgba(196,163,76,0.3)" stroke="var(--status-warn)" stroke-width="1.5" />
+            <circle cx="174" cy="14" r="9" fill="rgba(200,155,60,0.3)" stroke="var(--status-warn)" stroke-width="1.5" />
             <text x="174" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
             <text x="38" y="35" text-anchor="middle" font-size="8" fill="var(--status-info)" font-family="Outfit" font-weight="600" opacity="0.7">WET</text>
             <text x="123" y="35" text-anchor="middle" font-size="8" fill="var(--status-ok)" font-family="Outfit" font-weight="600" opacity="0.7">SAFE</text>
@@ -490,7 +490,7 @@
             <span class="fc-dow">WED</span>
             <span class="fc-icon">🌧️</span>
             <span class="fc-temp">24°</span>
-            <span class="fc-rain" style="color:#5aaed4;font-weight:800">5 mm</span>
+            <span class="fc-rain" style="color:#6a9ec4;font-weight:800">5 mm</span>
             <span class="fc-et">ET ~2</span>
           </div>
           <div class="fc-day">
@@ -638,7 +638,7 @@
 
     function flash(el) {
       el.style.transition = 'box-shadow 0.4s';
-      el.style.boxShadow = '0 0 12px rgba(74,158,196,0.25)';
+      el.style.boxShadow = '0 0 12px rgba(196,163,76,0.25)';
       setTimeout(() => { el.style.boxShadow = ''; }, 1200);
     }
 
@@ -656,10 +656,10 @@
     }
 
     function markerColors(x) {
-      if (x < 77) return ['rgba(74,158,196,0.3)', 'var(--status-info)'];
-      if (x < 169) return ['rgba(90,170,142,0.25)', 'var(--status-ok)'];
-      if (x < 383) return ['rgba(196,163,76,0.3)', 'var(--status-warn)'];
-      return ['rgba(196,90,90,0.35)', 'var(--status-crit)'];
+      if (x < 77) return ['rgba(90,138,176,0.3)', 'var(--status-info)'];
+      if (x < 169) return ['rgba(107,158,90,0.25)', 'var(--status-ok)'];
+      if (x < 383) return ['rgba(200,155,60,0.3)', 'var(--status-warn)'];
+      return ['rgba(196,74,63,0.35)', 'var(--status-crit)'];
     }
 
     async function update() {
