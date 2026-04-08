@@ -259,8 +259,8 @@
   <div class="alert anim-enter" style="animation-delay:80ms">
     <div class="alert-dot"></div>
     <div class="alert-text">
-      <strong>Bottom subsoil +7.82mm — deep profile drying despite surface recovery.</strong> Irrigation confirmed operational (Bottom: ~4-5 L/tree Apr 2-3, Apr 8).
-      Rain (8.4mm) + irrigation recovered topsoil, but D5/D6 drying independently — Al toxicity confining roots above 300mm. <strong>Lime programme is the priority fix.</strong>
+      <strong>Bottom subsoil +7.82mm — deep profile drying despite surface recovery.</strong> Both zones operational (API ec: Top 3.5, Bottom 5.0 L/tree Apr 7).
+      Rain (8.4mm) + irrigation recovered topsoil, but D5/D6 drying independently — Al toxicity confining roots above 300mm. <strong>Bottom EC anomaly (0.11 vs Top 0.65 dS/m) — check sensor.</strong>
     </div>
   </div>
 
@@ -334,8 +334,8 @@
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
-            <span class="pstat-val c-green">~2.5 <span class="unit">L/hr</span></span>
-            <span class="pstat-sub">Apr 6-7 confirmed</span>
+            <span class="pstat-val c-green">3.5 <span class="unit">L/hr</span></span>
+            <span class="pstat-sub">Apr 7 · EC 0.69 dS/m</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">ETc Ratio</span>
@@ -373,7 +373,7 @@
         </div>
         <div class="probe-note">
           <strong>Rain + irrigation recovered topsoil from +9.29mm to +2.09mm. Subsoil wet at -1.71mm.</strong> D3-D6 all negative (moist).
-          T1=25°C. Flow confirmed ~2-3 L/tree (Apr 2-3, Apr 6-7). Inline pressure zero — check sensor. Next: Thu (Apr 11).
+          T1=25°C. API ec: 3.5 L/tree Apr 7 (14-17h), EC 0.69 dS/m. Inline pressure zero — check sensor. Next: Thu (Apr 11).
         </div>
       </div>
 
@@ -399,8 +399,8 @@
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
-            <span class="pstat-val c-green">~5.0 <span class="unit">L/hr</span></span>
-            <span class="pstat-sub">Apr 8 run confirmed</span>
+            <span class="pstat-val c-green">5.0 <span class="unit">L/hr</span></span>
+            <span class="pstat-sub">Apr 7 · EC 0.37 dS/m</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">ETc Ratio</span>
@@ -431,8 +431,8 @@
           </svg>
         </div>
         <div class="probe-note">
-          <strong>Dramatic recovery: +21.21mm to +2.34mm from rain + irrigation (~5 L/tree Apr 8). Subsoil +7.82mm, D5=+4.40, D6=+3.42.</strong>
-          Al toxicity confining roots above ~300mm. T1=23.7°C. Irrigation operational. Next run: Wed Apr 10. Flower initiation active.
+          <strong>Dramatic recovery: +21.21mm to +2.34mm from rain + irrigation (5.0 L/tree Apr 7). Subsoil +7.82mm, D5=+4.40, D6=+3.42.</strong>
+          Al toxicity confining roots above ~300mm. T1=23.7°C. EC anomaly: 0.11 avg vs Top 0.65 — check sensor. Next: Wed Apr 10.
         </div>
       </div>
     </div>
@@ -509,10 +509,10 @@
           </thead>
           <tbody>
             <tr class="risk-row sev-med">
-              <td>Top inline pressure reading zero</td>
+              <td>Bottom EC 0.11 vs Top 0.65 dS/m</td>
               <td><span class="sev sev-m">MOD</span></td>
               <td><span class="urg-week">THIS WEEK</span></td>
-              <td>Investigate sensor — not installed or blocked?</td>
+              <td>Check EC sensor calibration with IrriCheck</td>
             </tr>
             <tr class="risk-row sev-high">
               <td>Bottom subsoil +7.82mm, D5/D6 drying</td>
@@ -654,7 +654,10 @@
       ]);
 
       if (eco.status === 'fulfilled' && eco.value?.data) updateEco(eco.value.data);
-      if (pulse.status === 'fulfilled' && pulse.value) updatePulse(pulse.value);
+      if (pulse.status === 'fulfilled' && pulse.value) {
+        updatePulse(pulse.value);
+        updateFlow(pulse.value);
+      }
       updateStatus(eco.status === 'fulfilled', pulse.status === 'fulfilled');
     }
 
@@ -817,6 +820,66 @@
               }
               break;
             }
+          }
+        }
+
+        flash(card);
+      });
+    }
+
+    function updateFlow(data) {
+      const ec = data.ec || {};
+      const cards = document.querySelectorAll('.probe-card');
+
+      ['Top', 'Bottom'].forEach((probe, idx) => {
+        const card = cards[idx];
+        if (!card) return;
+        const rd = ec[probe];
+        if (!rd || typeof rd !== 'object') return;
+
+        const ts = Object.keys(rd).sort();
+        if (!ts.length) return;
+
+        // Find latest non-zero flow reading
+        let latestFlow = 0, latestEc = 0, latestTs = '';
+        for (let i = ts.length - 1; i >= 0; i--) {
+          if (rd[ts[i]].flow > 0) {
+            latestFlow = rd[ts[i]].flow;
+            latestEc = rd[ts[i]].ec;
+            latestTs = ts[i];
+            break;
+          }
+        }
+
+        // Find peak flow in last 7 days
+        let peakFlow = 0;
+        for (const t of ts) {
+          if (rd[t].flow > peakFlow) peakFlow = rd[t].flow;
+        }
+
+        const vals = card.querySelectorAll('.pstat-val');
+        const subs = card.querySelectorAll('.pstat-sub');
+
+        // Update Flow/Tree (index 2)
+        if (vals[2] && peakFlow > 0) {
+          vals[2].className = 'pstat-val c-green';
+          vals[2].innerHTML = peakFlow.toFixed(1) + ' <span class="unit">L/hr</span>';
+          if (subs[2] && latestTs) {
+            const d = latestTs.split(' ')[0].split('/');
+            const day = d.length >= 3 ? d[1] + '/' + d[2] : latestTs;
+            subs[2].textContent = day + ' · EC ' + latestEc.toFixed(2) + ' dS/m';
+          }
+        }
+
+        // Update pill badge based on flow
+        const pill = card.querySelector('.pill');
+        if (pill) {
+          if (peakFlow > 0) {
+            pill.className = 'pill pill-ok';
+            pill.textContent = 'OPERATIONAL';
+          } else {
+            pill.className = 'pill pill-crit';
+            pill.textContent = 'ZERO FLOW';
           }
         }
 
