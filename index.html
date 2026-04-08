@@ -249,8 +249,8 @@
       <span class="header-sub"><strong>PTN 201</strong> · 7.5 ha Macadamia · Ballito, KZN · 5,000 Trees · 1-5 yr</span>
     </div>
     <div class="badges">
-      <span class="badge badge-crit">ZERO FLOW — 10+ DAYS</span>
       <span class="badge badge-warn">BOTTOM SUBSOIL +7.82mm</span>
+      <span class="badge badge-warn">DEEP PROFILE DRYING — AL TOXICITY</span>
       <span class="badge badge-date">2026-04-08</span>
     </div>
   </div>
@@ -259,8 +259,8 @@
   <div class="alert anim-enter" style="animation-delay:80ms">
     <div class="alert-dot"></div>
     <div class="alert-text">
-      <strong>ZERO IRRIGATION for 10+ days — system unverified.</strong> Apr 5-6 rain (8.4mm) rescued both zones but rain buffer is thin (+2mm).
-      Bottom subsoil +7.82mm (caution) with D5/D6 drying independently — Al toxicity fingerprint. <strong>Verify irrigation system before Apr 10 scheduled run.</strong>
+      <strong>Bottom subsoil +7.82mm — deep profile drying despite surface recovery.</strong> Irrigation confirmed operational (Bottom: ~4-5 L/tree Apr 2-3, Apr 8).
+      Rain (8.4mm) + irrigation recovered topsoil, but D5/D6 drying independently — Al toxicity confining roots above 300mm. <strong>Lime programme is the priority fix.</strong>
     </div>
   </div>
 
@@ -313,13 +313,13 @@
     <!-- LEFT: PROBES -->
     <div class="probes-col">
       <!-- TOP PROBE -->
-      <div class="probe-card warn anim-enter" style="animation-delay:380ms">
+      <div class="probe-card ok anim-enter" style="animation-delay:380ms">
         <div class="probe-hdr">
           <div>
             <div class="probe-title">Top Probe (AC228398)</div>
             <div class="probe-id">1 drip line · Young trees 1-2yr · Indicators: <strong>2, -2</strong> · Sched: Thu</div>
           </div>
-          <span class="pill pill-crit">ZERO FLOW</span>
+          <span class="pill pill-warn">UNCONFIRMED</span>
         </div>
         <div class="probe-stats">
           <div class="pstat">
@@ -334,8 +334,8 @@
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
-            <span class="pstat-val c-red">0.0 <span class="unit">UF</span></span>
-            <span class="pstat-sub">Zero since late Mar</span>
+            <span class="pstat-val c-amber">? <span class="unit">L/hr</span></span>
+            <span class="pstat-sub">Check Pulse app flow</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">ETc Ratio</span>
@@ -373,7 +373,7 @@
         </div>
         <div class="probe-note">
           <strong>Rain recovered topsoil from +9.29mm to +2.09mm. Subsoil wet at -1.71mm.</strong> D3-D6 all negative (moist).
-          T1=25°C. At ~4mm/day ET, reaches refill by Apr 11. Next Pulse schedule: Thu. Verify system runs.
+          T1=25°C. Top zone flow not yet confirmed — check Pulse app EC & Flow. Next schedule: Thu (Apr 11).
         </div>
       </div>
 
@@ -384,7 +384,7 @@
             <div class="probe-title">Bottom Probe (AC228108)</div>
             <div class="probe-id">2 drip lines · 4-5yr trees · Indicators: <strong style="color:var(--status-warn)">2, 8</strong> · Sched: Wed/Sat</div>
           </div>
-          <span class="pill pill-crit">ZERO FLOW</span>
+          <span class="pill pill-ok">OPERATIONAL</span>
         </div>
         <div class="probe-stats">
           <div class="pstat">
@@ -399,8 +399,8 @@
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
-            <span class="pstat-val c-red">0.0 <span class="unit">UF</span></span>
-            <span class="pstat-sub">Zero since late Mar</span>
+            <span class="pstat-val c-green">~5.0 <span class="unit">L/hr</span></span>
+            <span class="pstat-sub">Apr 8 run confirmed</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">ETc Ratio</span>
@@ -431,8 +431,8 @@
           </svg>
         </div>
         <div class="probe-note">
-          <strong>Dramatic recovery: +21.21mm (stress) to +2.34mm from Apr 5-6 rain. But subsoil +7.82mm, D5=+4.40, D6=+3.42.</strong>
-          Al toxicity confining roots above ~300mm. T1=23.7°C. Next run: Wed Apr 10. Flower initiation active — protect moisture.
+          <strong>Dramatic recovery: +21.21mm to +2.34mm from rain + irrigation (~5 L/tree Apr 8). Subsoil +7.82mm, D5=+4.40, D6=+3.42.</strong>
+          Al toxicity confining roots above ~300mm. T1=23.7°C. Irrigation operational. Next run: Wed Apr 10. Flower initiation active.
         </div>
       </div>
     </div>
@@ -508,11 +508,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="risk-row sev-crit">
-              <td>Zero irrigation — 10+ days unverified</td>
-              <td><span class="sev sev-c">CRIT</span></td>
-              <td><span class="urg-now">NOW</span></td>
-              <td>Physical system check: pump, controller, valves, emitters</td>
+            <tr class="risk-row sev-med">
+              <td>Top zone flow unconfirmed</td>
+              <td><span class="sev sev-m">MOD</span></td>
+              <td><span class="urg-week">THIS WEEK</span></td>
+              <td>Check Top zone in Pulse app EC & Flow graph</td>
             </tr>
             <tr class="risk-row sev-high">
               <td>Bottom subsoil +7.82mm, D5/D6 drying</td>
@@ -609,7 +609,7 @@
   <div class="footer anim-enter" style="animation-delay:880ms">
     <span id="ai-report-ts">AI Report: 2026-04-08 (SAST)</span>
     <span>Weather: Ecowitt API (live) · Probe: IrriCheck Pulse API · Soil: Agrisol Aug 2025</span>
-    <span>PRIORITY: Verify irrigation system NOW · Confirm Apr 10 Bottom run · Lime programme April</span>
+    <span>PRIORITY: Lime programme April · Confirm Top zone flow · Deep profile recovery · Protect flower initiation</span>
   </div>
 
   <!-- LIVE DATA SCRIPT -->
