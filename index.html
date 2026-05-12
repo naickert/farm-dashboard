@@ -66,7 +66,7 @@
       opacity: 0.018;
       background:
         radial-gradient(ellipse 900px 600px at 20% 30%, rgba(196, 163, 76, 0.3), transparent),
-        radial-gradient(ellipse 600px 800px at 80% 70%, rgba(196, 74, 63, 0.15), transparent);
+        radial-gradient(ellipse 600px 800px at 80% 70%, rgba(90, 138, 176, 0.18), transparent);
     }
 
     @keyframes enterUp {
@@ -74,12 +74,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
     @keyframes alertPulse {
-      0%, 100% { border-left-color: var(--status-crit); box-shadow: inset 4px 0 16px -4px rgba(196, 74, 63, 0.15); }
-      50% { border-left-color: #d4605a; box-shadow: inset 4px 0 24px -4px rgba(196, 74, 63, 0.3); }
+      0%, 100% { border-left-color: var(--status-warn); box-shadow: inset 4px 0 16px -4px rgba(200, 155, 60, 0.15); }
+      50% { border-left-color: #d8af55; box-shadow: inset 4px 0 24px -4px rgba(200, 155, 60, 0.3); }
     }
     @keyframes dotBreathe {
-      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(196, 74, 63, 0.6); }
-      50% { opacity: 0.7; transform: scale(1.15); box-shadow: 0 0 12px 4px rgba(196, 74, 63, 0.15); }
+      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(200, 155, 60, 0.6); }
+      50% { opacity: 0.7; transform: scale(1.15); box-shadow: 0 0 12px 4px rgba(200, 155, 60, 0.15); }
     }
     .anim-enter { animation: enterUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
@@ -92,16 +92,18 @@
     .header-sub strong { color: var(--text-primary); font-weight: 600; }
     .badges { display: flex; gap: 8px; align-items: center; }
     .badge { padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+    .badge-ok { background: var(--status-ok-dim); color: var(--status-ok); border: 1px solid rgba(107, 158, 90, 0.3); }
     .badge-crit { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 74, 63, 0.3); }
     .badge-warn { background: var(--status-warn-dim); color: var(--status-warn); border: 1px solid rgba(200, 155, 60, 0.3); }
+    .badge-info { background: var(--status-info-dim); color: var(--status-info); border: 1px solid rgba(90, 138, 176, 0.3); }
     .badge-date { background: var(--accent-gold-dim); color: var(--accent-gold); border: 1px solid rgba(196, 163, 76, 0.15); }
 
-    /* ALERT */
-    .alert { background: linear-gradient(90deg, rgba(196, 74, 63, 0.08) 0%, rgba(196, 74, 63, 0.02) 100%); border: 1px solid rgba(196, 74, 63, 0.12); border-left: 4px solid var(--status-crit); border-radius: 2px 10px 10px 2px; padding: 10px 20px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; animation: alertPulse 3s ease-in-out infinite; position: relative; overflow: hidden; }
-    .alert::before { content: ''; position: absolute; inset: 0; opacity: 0.03; background: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(196, 74, 63, 0.5) 8px, rgba(196, 74, 63, 0.5) 9px); }
-    .alert-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--status-crit); flex-shrink: 0; animation: dotBreathe 2s ease-in-out infinite; position: relative; z-index: 1; }
-    .alert-text { font-size: 13px; font-weight: 400; color: #d4a09a; line-height: 1.45; position: relative; z-index: 1; }
-    .alert-text strong { color: #e86b62; font-weight: 700; }
+    /* ALERT — warn variant for today */
+    .alert { background: linear-gradient(90deg, rgba(200, 155, 60, 0.08) 0%, rgba(200, 155, 60, 0.02) 100%); border: 1px solid rgba(200, 155, 60, 0.12); border-left: 4px solid var(--status-warn); border-radius: 2px 10px 10px 2px; padding: 10px 20px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; animation: alertPulse 3s ease-in-out infinite; position: relative; overflow: hidden; }
+    .alert::before { content: ''; position: absolute; inset: 0; opacity: 0.03; background: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(200, 155, 60, 0.5) 8px, rgba(200, 155, 60, 0.5) 9px); }
+    .alert-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--status-warn); flex-shrink: 0; animation: dotBreathe 2s ease-in-out infinite; position: relative; z-index: 1; }
+    .alert-text { font-size: 13px; font-weight: 400; color: #d8c79a; line-height: 1.45; position: relative; z-index: 1; }
+    .alert-text strong { color: #e8c668; font-weight: 700; }
 
     /* KPI ROW — 8 cards */
     .weather-row { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; flex-shrink: 0; }
@@ -161,9 +163,11 @@
     .fc-day:hover { transform: translateY(-2px); background: rgba(255, 255, 255, 0.025); border-color: var(--border-medium); }
     .fc-day.today { border-color: rgba(196, 163, 76, 0.25); background: var(--accent-gold-dim); box-shadow: 0 2px 12px rgba(196, 163, 76, 0.06); }
     .fc-day.heat { border-color: rgba(196, 74, 63, 0.3); background: var(--status-crit-dim); box-shadow: 0 2px 12px rgba(196, 74, 63, 0.08); }
+    .fc-day.cool { border-color: rgba(90, 138, 176, 0.25); background: var(--status-info-dim); box-shadow: 0 2px 12px rgba(90, 138, 176, 0.06); }
     .fc-dow { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; }
     .fc-day.today .fc-dow { color: var(--accent-gold); }
     .fc-day.heat .fc-dow { color: var(--status-crit); }
+    .fc-day.cool .fc-dow { color: var(--status-info); }
     .fc-icon { font-size: 16px; line-height: 1; }
     .fc-temp { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--text-primary); }
     .fc-rain { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--status-info); font-weight: 600; }
@@ -181,10 +185,12 @@
     .risk-table tr.risk-row.sev-crit td:first-child { border-left-color: var(--status-crit); }
     .risk-table tr.risk-row.sev-high td:first-child { border-left-color: #d47040; }
     .risk-table tr.risk-row.sev-med td:first-child { border-left-color: var(--status-warn); }
+    .risk-table tr.risk-row.sev-low td:first-child { border-left-color: var(--status-info); }
     .sev { padding: 2px 7px; border-radius: 3px; font-size: 10px; font-weight: 800; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; white-space: nowrap; }
     .sev-c { background: var(--status-crit-dim); color: var(--status-crit); border: 1px solid rgba(196, 74, 63, 0.2); }
     .sev-h { background: rgba(212, 112, 64, 0.12); color: #d47040; }
     .sev-m { background: var(--status-warn-dim); color: var(--status-warn); }
+    .sev-l { background: var(--status-info-dim); color: var(--status-info); }
     .urg-now { color: var(--status-crit); font-weight: 800; font-size: 11px; font-family: 'JetBrains Mono', monospace; }
     .urg-week { color: var(--status-warn); font-weight: 600; font-size: 11px; font-family: 'JetBrains Mono', monospace; }
     .urg-month { color: var(--accent-gold); font-size: 11px; font-family: 'JetBrains Mono', monospace; }
@@ -226,6 +232,7 @@
       .main-grid { grid-template-columns: 1fr; }
       .probe-card { flex: none; }
       .probe-stats { grid-template-columns: repeat(2, 1fr); }
+      .pstat-val { font-size: 18px; }
       .forecast-grid { grid-template-columns: repeat(4, 1fr); }
       .risk-table td:last-child { display: none; }
       .soil-strip { grid-template-columns: 1fr; }
@@ -246,21 +253,22 @@
   <div class="header anim-enter" style="animation-delay:0ms">
     <div class="header-brand">
       <h1>Farmcraft <span>@</span> Fairview</h1>
-      <span class="header-sub"><strong>PTN 201</strong> · 7.5 ha Macadamia · Ballito, KZN · 5,000 Trees · 1–5 yr</span>
+      <span class="header-sub"><strong>PTN 201</strong> · 7.5 ha Macadamia · Ballito, KZN · 5,000 Trees · 1-5 yr</span>
     </div>
     <div class="badges">
-      <span class="badge badge-crit">BOTTOM IN STRESS — +23mm</span>
-      <span class="badge badge-crit">BERGWIND DRYING +19mm/48H</span>
-      <span class="badge badge-date">2026-05-11</span>
+      <span class="badge badge-ok">BOTH ZONES OPERATIONAL</span>
+      <span class="badge badge-info">COOL FRONT 11.7°C</span>
+      <span class="badge badge-warn">BOTTOM SUBSOIL DRYING</span>
+      <span class="badge badge-date">2026-05-12</span>
     </div>
   </div>
 
-  <!-- ALERT BAR -->
+  <!-- ALERT BAR — warn variant -->
   <div class="alert anim-enter" style="animation-delay:80ms">
     <div class="alert-dot"></div>
     <div class="alert-text">
-      <strong>BOTTOM PROBE: Topsoil +23.04mm — past stress threshold (>20mm).</strong> Saturday's bergwind heat (Tmax 35.9°C, Eto 6.2mm, gust 14.8 m/s) drove a +19mm drying spike in 48h.
-      Pulse triggered 04h00 today — <strong>walk the block now, verify emitter wetting, confirm 1.5 L/tree delivered.</strong>
+      <strong>Cool front passing — 1004.8 hPa, 11.7°C, possible showers next 24-48h.</strong>
+      Bottom zone subsoil drying steadily (+11.39mm, CAUTION) despite three weekly cycles. <strong>Lengthen Bottom cycle duration ~15% on D5/D7 to drive water deeper. Winter taper begins: −20% by 5/26, −30% by 6/09.</strong>
     </div>
   </div>
 
@@ -268,43 +276,43 @@
   <div class="weather-row">
     <div class="kpi anim-enter" style="animation-delay:120ms">
       <div class="kpi-lbl">Temperature</div>
-      <div class="kpi-val c-blue">18.9<sup>°C</sup></div>
-      <div class="kpi-sub">Week 11.8 — 35.9°C · feels 18.9</div>
+      <div class="kpi-val c-blue">11.7<sup>°C</sup></div>
+      <div class="kpi-sub">Range 11.8-35.9°C this week</div>
     </div>
     <div class="kpi anim-enter" style="animation-delay:150ms">
       <div class="kpi-lbl">Humidity</div>
-      <div class="kpi-val c-teal">77<sup>%</sup></div>
-      <div class="kpi-sub">Range 18 — 98% · dew 14.8°C</div>
+      <div class="kpi-val c-teal">87<sup>%</sup></div>
+      <div class="kpi-sub">Range 18-98% · Dew 9.6°C</div>
     </div>
     <div class="kpi anim-enter" style="animation-delay:180ms">
       <div class="kpi-lbl">Rain Today</div>
       <div class="kpi-val c-blue">0.0<sup>mm</sup></div>
-      <div class="kpi-sub">Event 0.0 · 7-day 5.6 mm</div>
+      <div class="kpi-sub">Event 0.0 · Weekly 0.3 mm</div>
     </div>
     <div class="kpi anim-enter" style="animation-delay:210ms">
       <div class="kpi-lbl">Soil Moisture</div>
-      <div class="kpi-val c-red">+19.8<sup>mm</sup></div>
-      <div class="kpi-sub">Avg above refill · STRESS trend</div>
+      <div class="kpi-val c-amber">26<sup>%</sup></div>
+      <div class="kpi-sub">Ecowitt ch1 · Independent sensor</div>
     </div>
     <div class="kpi anim-enter" style="animation-delay:240ms">
       <div class="kpi-lbl">Wind</div>
-      <div class="kpi-val c-green">1.3<sup>m/s</sup></div>
-      <div class="kpi-sub">SW · gust 1.5 · wk max 14.8</div>
+      <div class="kpi-val c-green">0.5<sup>m/s</sup></div>
+      <div class="kpi-sub">SW · Gust max 14.8 this week</div>
     </div>
     <div class="kpi anim-enter" style="animation-delay:270ms">
       <div class="kpi-lbl">Pressure</div>
-      <div class="kpi-val c-green">1005<sup>hPa</sup></div>
-      <div class="kpi-sub">Range 997 — 1014 hPa</div>
+      <div class="kpi-val c-amber">1005<sup>hPa</sup></div>
+      <div class="kpi-sub">Low · Front passing</div>
     </div>
     <div class="kpi anim-enter" style="animation-delay:300ms">
       <div class="kpi-lbl">ET (Ref)</div>
-      <div class="kpi-val c-red">6.2<sup>mm/d</sup></div>
-      <div class="kpi-sub">Sat noon spike · avg 2.8</div>
+      <div class="kpi-val c-amber">5.0<sup>mm/d</sup></div>
+      <div class="kpi-sub">Pulse 5/11 noon · Falling to ~3</div>
     </div>
     <div class="kpi anim-enter" style="animation-delay:330ms">
       <div class="kpi-lbl">Rain YTD</div>
-      <div class="kpi-val c-amber">412<sup>mm</sup></div>
-      <div class="kpi-sub">May MTD: 5.6 mm · below avg</div>
+      <div class="kpi-val c-blue">412<sup>mm</sup></div>
+      <div class="kpi-sub">May: 5.6 mm · On track for ~900</div>
     </div>
   </div>
 
@@ -317,30 +325,30 @@
         <div class="probe-hdr">
           <div>
             <div class="probe-title">Top Probe (AC228398)</div>
-            <div class="probe-id">1 drip line · Young trees 1-2yr · Indicators: <strong style="color:var(--status-warn)">17, 7</strong> · Sched: Mo/Fr (only 2 cycles)</div>
+            <div class="probe-id">1 drip line · Young trees 1-2yr · Indicators: <strong style="color:var(--status-warn)">10, 7</strong> · Sched: Tu</div>
           </div>
-          <span class="pill pill-warn">DRIFTING + LOW FLOW</span>
+          <span class="pill pill-ok">OPERATIONAL</span>
         </div>
         <div class="probe-stats">
           <div class="pstat">
             <span class="pstat-lbl">Topsoil Now</span>
-            <span class="pstat-val c-amber">+16.54 <span class="unit">mm</span></span>
-            <span class="pstat-sub">Refill zone</span>
+            <span class="pstat-val c-amber">+10.29 <span class="unit">mm</span></span>
+            <span class="pstat-sub">Refill zone — drying</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Subsoil Now</span>
-            <span class="pstat-val c-green">+6.63 <span class="unit">mm</span></span>
-            <span class="pstat-sub">Upper rain buffer</span>
+            <span class="pstat-val c-amber">+6.69 <span class="unit">mm</span></span>
+            <span class="pstat-sub">Caution — borderline</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
-            <span class="pstat-val c-red">7.8 <span class="unit">L/7d</span></span>
-            <span class="pstat-sub">Target 4-6× higher</span>
+            <span class="pstat-val c-green">3.9 <span class="unit">L</span></span>
+            <span class="pstat-sub">Last 5/11 · Target 0.6/hr</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">ETc Ratio</span>
-            <span class="pstat-val c-amber">~50<span class="unit">%</span></span>
-            <span class="pstat-sub">Under-scheduled vs ET</span>
+            <span class="pstat-val c-amber">5.0 <span class="unit">mm/d</span></span>
+            <span class="pstat-sub">Autumn — falling</span>
           </div>
         </div>
         <div class="moisture-bar">
@@ -358,13 +366,13 @@
             <line x1="77" y1="2" x2="77" y2="36" stroke="rgba(90,138,176,0.2)" stroke-width="1" stroke-dasharray="2,2" />
             <line x1="169" y1="2" x2="169" y2="36" stroke="rgba(107,158,90,0.2)" stroke-width="1" stroke-dasharray="2,2" />
             <line x1="383" y1="2" x2="383" y2="36" stroke="rgba(200,155,60,0.2)" stroke-width="1" stroke-dasharray="2,2" />
-            <!-- Drying trend arrow — caution to stress -->
-            <line x1="330" y1="14" x2="395" y2="14" stroke="rgba(196,74,63,0.35)" stroke-width="1" stroke-dasharray="4,3" />
-            <polygon points="395,10 405,14 395,18" fill="rgba(196,74,63,0.45)" />
-            <text x="362" y="9" text-anchor="middle" font-size="7" fill="var(--status-crit)" font-family="JetBrains Mono" font-weight="600" opacity="0.8">stress by Thu if no extra cycle</text>
-            <!-- NOW marker — Caution zone, x = (16.54+5)*460/30 = 330 -->
-            <circle cx="330" cy="14" r="9" fill="rgba(200,155,60,0.3)" stroke="var(--status-warn)" stroke-width="1.5" />
-            <text x="330" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
+            <!-- Drying trend arrow -->
+            <line x1="234" y1="14" x2="300" y2="14" stroke="rgba(200,155,60,0.3)" stroke-width="1" stroke-dasharray="4,3" />
+            <polygon points="300,10 310,14 300,18" fill="rgba(200,155,60,0.4)" />
+            <text x="265" y="9" text-anchor="middle" font-size="7" fill="var(--status-warn)" font-family="JetBrains Mono" font-weight="600" opacity="0.7">slow dry — D2 cycle pending</text>
+            <!-- NOW marker — refill zone (caution) -->
+            <circle cx="234" cy="14" r="9" fill="rgba(200,155,60,0.3)" stroke="var(--status-warn)" stroke-width="1.5" />
+            <text x="234" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
             <text x="38" y="35" text-anchor="middle" font-size="8" fill="var(--status-info)" font-family="Outfit" font-weight="600" opacity="0.7">WET</text>
             <text x="123" y="35" text-anchor="middle" font-size="8" fill="var(--status-ok)" font-family="Outfit" font-weight="600" opacity="0.7">RAIN BUFFER</text>
             <text x="276" y="35" text-anchor="middle" font-size="8" fill="var(--status-warn)" font-family="Outfit" font-weight="600" opacity="0.7">REFILL</text>
@@ -372,40 +380,40 @@
           </svg>
         </div>
         <div class="probe-note">
-          <strong>Drifting +5mm/wk net despite irrigation — flow only 7.8 L/tree/7d vs Bottom 41.7 — check delivery.</strong>
-          48h: Topsoil +9.03mm drying (bergwind). T1=22.9°C, T6=24.8°C stable. D3-D4 (200-300mm) very dry. Add a Tue/Wed cycle.
+          <strong>Topsoil and subsoil both in caution — D2 cycle (Tuesday 04h00) should refresh.</strong>
+          T1 = 22.6°C, deeper 24.8°C (autumn lag). 48h trend: top wetting -0.62mm (recent 5/11 fertigation); subsoil drying +0.16mm. EC during irrigation 0.7-0.8 dS/m — fertigation reaching root zone.
         </div>
       </div>
 
       <!-- BOTTOM PROBE -->
-      <div class="probe-card crit anim-enter" style="animation-delay:460ms">
+      <div class="probe-card warn anim-enter" style="animation-delay:460ms">
         <div class="probe-hdr">
           <div>
             <div class="probe-title">Bottom Probe (AC228108)</div>
-            <div class="probe-id">2 drip lines · Mature trees 4-5yr · Indicators: <strong style="color:var(--status-crit)">23, 11</strong> · Sched: Mo/Tu/Th/Su (4 cycles)</div>
+            <div class="probe-id">2 drip lines · Mature trees 4-5yr · Indicators: <strong style="color:var(--status-warn)">5, 11</strong> · Sched: Tu/Fr/Su</div>
           </div>
-          <span class="pill pill-crit">STRESS — +23mm</span>
+          <span class="pill pill-ok">OPERATIONAL</span>
         </div>
         <div class="probe-stats">
           <div class="pstat">
             <span class="pstat-lbl">Topsoil Now</span>
-            <span class="pstat-val c-red">+23.04 <span class="unit">mm</span></span>
-            <span class="pstat-sub">In STRESS zone</span>
+            <span class="pstat-val c-green">+4.63 <span class="unit">mm</span></span>
+            <span class="pstat-sub">Rain buffer — post 5/11</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Subsoil Now</span>
-            <span class="pstat-val c-amber">+11.32 <span class="unit">mm</span></span>
-            <span class="pstat-sub">Deep refill zone</span>
+            <span class="pstat-val c-amber">+11.39 <span class="unit">mm</span></span>
+            <span class="pstat-sub">Caution — drying deeper</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
-            <span class="pstat-val c-green">41.7 <span class="unit">L/7d</span></span>
-            <span class="pstat-sub">Healthy delivery</span>
+            <span class="pstat-val c-green">21.2 <span class="unit">L</span></span>
+            <span class="pstat-sub">Last 5/11 · 2-line cumulative</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">ETc Ratio</span>
-            <span class="pstat-val c-red">~90<span class="unit">%</span></span>
-            <span class="pstat-sub">Bergwind exceeded supply</span>
+            <span class="pstat-val c-amber">5.0 <span class="unit">mm/d</span></span>
+            <span class="pstat-sub">Autumn — falling</span>
           </div>
         </div>
         <div class="moisture-bar">
@@ -417,13 +425,13 @@
             <line x1="77" y1="2" x2="77" y2="36" stroke="rgba(90,138,176,0.2)" stroke-width="1" stroke-dasharray="2,2" />
             <line x1="169" y1="2" x2="169" y2="36" stroke="rgba(107,158,90,0.2)" stroke-width="1" stroke-dasharray="2,2" />
             <line x1="383" y1="2" x2="383" y2="36" stroke="rgba(200,155,60,0.2)" stroke-width="1" stroke-dasharray="2,2" />
-            <!-- Recovery arrow — irrigation today should pull back -->
-            <line x1="155" y1="14" x2="420" y2="14" stroke="rgba(196,74,63,0.3)" stroke-width="1" stroke-dasharray="4,3" />
-            <polygon points="420,10 430,14 420,18" fill="rgba(196,74,63,0.5)" />
-            <text x="285" y="9" text-anchor="middle" font-size="7" fill="var(--status-crit)" font-family="JetBrains Mono" font-weight="600" opacity="0.8">+19mm drying in 48h (May 9-11)</text>
-            <!-- NOW marker — Stress zone, x = (23.04+5)*460/30 = 430 -->
-            <circle cx="430" cy="14" r="9" fill="rgba(196,74,63,0.35)" stroke="var(--status-crit)" stroke-width="1.5" />
-            <text x="430" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
+            <!-- Drying trend arrow — moving from safe to caution -->
+            <line x1="148" y1="14" x2="220" y2="14" stroke="rgba(200,155,60,0.3)" stroke-width="1" stroke-dasharray="4,3" />
+            <polygon points="220,10 230,14 220,18" fill="rgba(200,155,60,0.4)" />
+            <text x="185" y="9" text-anchor="middle" font-size="7" fill="var(--status-warn)" font-family="JetBrains Mono" font-weight="600" opacity="0.7">topsoil refreshed — subsoil deeper concern</text>
+            <!-- NOW marker — rain buffer zone (safe) -->
+            <circle cx="148" cy="14" r="9" fill="rgba(107,158,90,0.25)" stroke="var(--status-ok)" stroke-width="1.5" />
+            <text x="148" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
             <text x="38" y="35" text-anchor="middle" font-size="8" fill="var(--status-info)" font-family="Outfit" font-weight="600" opacity="0.7">WET</text>
             <text x="123" y="35" text-anchor="middle" font-size="8" fill="var(--status-ok)" font-family="Outfit" font-weight="600" opacity="0.7">RAIN BUFFER</text>
             <text x="276" y="35" text-anchor="middle" font-size="8" fill="var(--status-warn)" font-family="Outfit" font-weight="600" opacity="0.7">REFILL</text>
@@ -431,8 +439,8 @@
           </svg>
         </div>
         <div class="probe-note">
-          <strong>Stress reached despite 41.7 L/tree over 7d — bergwind heat outpaced irrigation supply.</strong>
-          48h: Topsoil +19.02mm drying. Subsoil holding (+11mm). T1=20.2°C, T6=23.7°C. EC trending up (0.12 → 0.75) — watch salts.
+          <strong>Topsoil refreshed by 5/11 (lost 13.5mm, gained ~21 L/tree) but subsoil still drying +0.93mm/48h.</strong>
+          Soil temps 19.9-23.6°C (cooler than Top — deeper canopy shade + autumn). Lengthen Fri/Sun cycles ~15% to drive water past D4. Per-emitter flow normal (cumulative across 2 drip lines).
         </div>
       </div>
     </div>
@@ -441,56 +449,56 @@
     <div class="right-col">
       <!-- 7-DAY FORECAST -->
       <div class="forecast-card anim-enter" style="animation-delay:520ms">
-        <div class="section-title">7-Day Forecast — cool autumn, ET easing</div>
+        <div class="section-title">7-Day Forecast — Cool front, then drier (winter approaching)</div>
         <div class="forecast-grid">
-          <div class="fc-day today">
-            <span class="fc-dow">MON</span>
-            <span class="fc-icon">⛅</span>
-            <span class="fc-temp">22°</span>
-            <span class="fc-rain">0.0 mm</span>
-            <span class="fc-et">ET ~2.5</span>
-          </div>
-          <div class="fc-day">
+          <div class="fc-day today cool">
             <span class="fc-dow">TUE</span>
-            <span class="fc-icon">☀️</span>
-            <span class="fc-temp">24°</span>
-            <span class="fc-rain">0.0 mm</span>
-            <span class="fc-et">ET ~3.0</span>
+            <span class="fc-icon">🌧️</span>
+            <span class="fc-temp" style="color:var(--status-info)">19°</span>
+            <span class="fc-rain" style="color:#6a9ec4;font-weight:800">5.0 mm</span>
+            <span class="fc-et">ET ~3</span>
           </div>
           <div class="fc-day">
             <span class="fc-dow">WED</span>
-            <span class="fc-icon">☀️</span>
-            <span class="fc-temp">25°</span>
-            <span class="fc-rain">0.0 mm</span>
-            <span class="fc-et">ET ~3.5</span>
+            <span class="fc-icon">🌦️</span>
+            <span class="fc-temp">21°</span>
+            <span class="fc-rain">3.0 mm</span>
+            <span class="fc-et">ET ~3</span>
           </div>
           <div class="fc-day">
             <span class="fc-dow">THU</span>
             <span class="fc-icon">⛅</span>
             <span class="fc-temp">23°</span>
             <span class="fc-rain">0.5 mm</span>
-            <span class="fc-et">ET ~3.0</span>
+            <span class="fc-et">ET ~3.5</span>
           </div>
           <div class="fc-day">
             <span class="fc-dow">FRI</span>
-            <span class="fc-icon">🌧️</span>
-            <span class="fc-temp">21°</span>
-            <span class="fc-rain" style="color:#6a9ec4;font-weight:800">3.0 mm</span>
-            <span class="fc-et">ET ~2.0</span>
+            <span class="fc-icon">☀️</span>
+            <span class="fc-temp">24°</span>
+            <span class="fc-rain">0.0 mm</span>
+            <span class="fc-et">ET ~3.5</span>
           </div>
           <div class="fc-day">
             <span class="fc-dow">SAT</span>
-            <span class="fc-icon">🌧️</span>
-            <span class="fc-temp">19°</span>
-            <span class="fc-rain" style="color:#6a9ec4;font-weight:800">5.0 mm</span>
-            <span class="fc-et">ET ~1.5</span>
+            <span class="fc-icon">☀️</span>
+            <span class="fc-temp">25°</span>
+            <span class="fc-rain">0.0 mm</span>
+            <span class="fc-et">ET ~3</span>
           </div>
           <div class="fc-day">
             <span class="fc-dow">SUN</span>
+            <span class="fc-icon">☀️</span>
+            <span class="fc-temp">24°</span>
+            <span class="fc-rain">0.0 mm</span>
+            <span class="fc-et">ET ~3</span>
+          </div>
+          <div class="fc-day">
+            <span class="fc-dow">MON</span>
             <span class="fc-icon">⛅</span>
-            <span class="fc-temp">21°</span>
+            <span class="fc-temp">22°</span>
             <span class="fc-rain">1.0 mm</span>
-            <span class="fc-et">ET ~2.5</span>
+            <span class="fc-et">ET ~3</span>
           </div>
         </div>
       </div>
@@ -508,41 +516,41 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="risk-row sev-crit">
-              <td>Bottom probe topsoil +23mm — STRESS</td>
-              <td><span class="sev sev-c">CRIT</span></td>
-              <td><span class="urg-now">NOW</span></td>
-              <td>Verify 04h00 cycle delivered 1.5 L/tree</td>
-            </tr>
-            <tr class="risk-row sev-high">
-              <td>Top zone flow only 7.8 vs target ~30</td>
-              <td><span class="sev sev-h">HIGH</span></td>
-              <td><span class="urg-now">NOW</span></td>
-              <td>Check pump pressure, filters, blockages</td>
-            </tr>
-            <tr class="risk-row sev-high">
-              <td>Top probe drifting to stress (+16.5mm)</td>
-              <td><span class="sev sev-h">HIGH</span></td>
-              <td><span class="urg-week">24-48H</span></td>
-              <td>Add a Tue or Wed irrigation cycle</td>
-            </tr>
             <tr class="risk-row sev-med">
-              <td>Bergwind heat damage to young trees</td>
+              <td>Bottom subsoil drying (+11.39mm) despite 3 cycles</td>
               <td><span class="sev sev-m">MOD</span></td>
               <td><span class="urg-week">WEEK</span></td>
-              <td>Walk Top zone — leaf scald, wilt check</td>
+              <td>Lengthen Fri/Sun cycles ~15% (not add)</td>
+            </tr>
+            <tr class="risk-row sev-low">
+              <td>Cool front rain timing — no controller link</td>
+              <td><span class="sev sev-l">LOW</span></td>
+              <td><span class="urg-now">NOW</span></td>
+              <td>Skip 5/13 cycle if rain &gt;5 mm falls</td>
+            </tr>
+            <tr class="risk-row sev-high">
+              <td>Zn deficiency (Aug 2025: 8% of target)</td>
+              <td><span class="sev sev-h">HIGH</span></td>
+              <td><span class="urg-week">WEEK</span></td>
+              <td>Foliar ZnSO₄ 0.3% + Solubor 0.15% NOW</td>
+            </tr>
+            <tr class="risk-row sev-high">
+              <td>Low pH 5.28 + Al 1247 ppm (6x toxic)</td>
+              <td><span class="sev sev-h">HIGH</span></td>
+              <td><span class="urg-month">JUN-JUL</span></td>
+              <td>Dolomitic lime 1.5-2 t/ha in dry season</td>
             </tr>
             <tr class="risk-row sev-med">
-              <td>EC rising on Bottom (0.12 → 0.75)</td>
+              <td>Winter mulch window opening (KZN dry season)</td>
               <td><span class="sev sev-m">MOD</span></td>
               <td><span class="urg-week">WEEK</span></td>
-              <td>Monitor salt build-up; flush if &gt;1.0</td>
+              <td>Top-up 10cm under drip line · 100mm off trunk</td>
             </tr>
             <tr class="risk-row sev-med">
-              <td>pH 5.28 + Al 1,247 ppm uncorrected</td>
+              <td>Botryosphaeria entry via pruning wounds</td>
               <td><span class="sev sev-m">MOD</span></td>
-              <td><span class="urg-month">MAY</span></td>
-              <td>Autumn lime 2-3 t/ha + Zn + B foliar</td>
+              <td><span class="urg-month">JUN-AUG</span></td>
+              <td>Disinfect tools · wound paint on cuts &gt;25mm</td>
             </tr>
           </tbody>
         </table>
@@ -565,8 +573,8 @@
       </div>
       <div class="soil-meta">
         <div class="soil-name">Soil pH</div>
-        <div class="soil-target">Target 5.5-6.0 · Day 278 uncorrected</div>
-        <div class="soil-action"><strong>Al toxicity 1,247 ppm (6×)</strong> · Cool soil window — apply lime now</div>
+        <div class="soil-target">Target 5.5-6.0 · Day 279 uncorrected</div>
+        <div class="soil-action"><strong>Al toxicity 1,247 ppm (6x)</strong> · Dolomite Jun-Jul on dry soil</div>
       </div>
     </div>
     <div class="soil-card anim-enter" style="animation-delay:760ms">
@@ -582,8 +590,8 @@
       </div>
       <div class="soil-meta">
         <div class="soil-name">Zinc (Zn)</div>
-        <div class="soil-target">Critical · Pre-winter foliar window</div>
-        <div class="soil-action"><strong>ZnSO&#x2084; 15-20 kg/ha</strong> banded after lime</div>
+        <div class="soil-target">Day 279 · Last warm window before dormancy</div>
+        <div class="soil-action"><strong>Foliar ZnSO₄ 0.3%</strong> THIS WEEK before cold sets in</div>
       </div>
     </div>
     <div class="soil-card anim-enter" style="animation-delay:820ms">
@@ -599,17 +607,17 @@
       </div>
       <div class="soil-meta">
         <div class="soil-name">Boron (B)</div>
-        <div class="soil-target">Bud differentiation window</div>
-        <div class="soil-action"><strong>Solubor 150 g/100L</strong> foliar before dormancy</div>
+        <div class="soil-target">Pre-dormancy uptake critical</div>
+        <div class="soil-action"><strong>Solubor 0.15%</strong> tank-mix with Zn foliar</div>
       </div>
     </div>
   </div>
 
   <!-- FOOTER -->
   <div class="footer anim-enter" style="animation-delay:880ms">
-    <span id="ai-report-ts">AI Report: 2026-05-11 (autumn watch)</span>
+    <span id="ai-report-ts">AI Report: 2026-05-12 (04:30 SAST)</span>
     <span>Weather: Ecowitt API (live) · Probe: IrriCheck Pulse API · Soil: Agrisol Aug 2025</span>
-    <span>PRIORITY: VERIFY BOTTOM 04H00 CYCLE · CHECK TOP DELIVERY · ADD TOP MID-WEEK CYCLE</span>
+    <span>PRIORITY: Lengthen Bottom cycles · Foliar Zn+B this week · Winter mulch · Dolomite Jun-Jul</span>
   </div>
 
   <!-- LIVE DATA SCRIPT -->
@@ -628,7 +636,7 @@
       setTimeout(() => { el.style.boxShadow = ''; }, 1200);
     }
 
-    // Map Pulse API mm directly to SVG x. Range: -5 to +25mm → x 0 to 460.
+    // Map Pulse API mm to SVG x. Range -5 to +25mm -> x 0 to 460.
     function mmToX(mm) {
       const x = (mm + 5) * (460 / 30);
       return Math.max(12, Math.min(448, x));
@@ -646,6 +654,13 @@
       if (x < 169) return ['rgba(107,158,90,0.25)', 'var(--status-ok)'];
       if (x < 383) return ['rgba(200,155,60,0.3)', 'var(--status-warn)'];
       return ['rgba(196,74,63,0.35)', 'var(--status-crit)'];
+    }
+
+    function subStatus(mm) {
+      if (mm <= 0) return 'Wet';
+      if (mm <= 6) return 'Rain buffer';
+      if (mm <= 20) return 'Refill zone';
+      return 'STRESS';
     }
 
     async function update() {
@@ -690,6 +705,15 @@
         flash(k[2]);
       }
 
+      const sm = d.soil_ch1?.soilmoisture?.value;
+      if (sm && k[3]) {
+        const v = Math.round(parseFloat(sm));
+        k[3].querySelector('.kpi-val').innerHTML = v + '<sup>%</sup>';
+        const ve = k[3].querySelector('.kpi-val');
+        ve.className = 'kpi-val ' + (v >= 50 ? 'c-green' : v >= 40 ? 'c-amber' : v >= 25 ? 'c-amber' : 'c-red');
+        flash(k[3]);
+      }
+
       const ws = d.wind?.wind_speed?.value;
       const wg = d.wind?.wind_gust?.value;
       const wd = d.wind?.wind_direction?.value;
@@ -722,8 +746,6 @@
       const readings = data.readings || {};
       const cards = document.querySelectorAll('.probe-card');
 
-      let topsoilTop = null, topsoilBot = null;
-
       ['Top', 'Bottom'].forEach((probe, idx) => {
         const card = cards[idx];
         if (!card) return;
@@ -738,22 +760,23 @@
         const topsoil = parseFloat(latest.Topsoil);
         const subsoil = parseFloat(latest.Bottomsoil);
 
-        if (idx === 0 && !isNaN(topsoil)) topsoilTop = topsoil;
-        if (idx === 1 && !isNaN(topsoil)) topsoilBot = topsoil;
-
         const vals = card.querySelectorAll('.pstat-val');
         const subs = card.querySelectorAll('.pstat-sub');
+
+        // Stat 0: Topsoil
         if (vals[0] && !isNaN(topsoil)) {
           const sign = topsoil >= 0 ? '+' : '';
           vals[0].className = 'pstat-val ' + valColor(topsoil);
           vals[0].innerHTML = sign + topsoil.toFixed(2) + ' <span class="unit">mm</span>';
-          if (subs[0]) subs[0].textContent = topsoil <= 0 ? 'Wet' : topsoil <= 6 ? 'Rain buffer' : topsoil <= 20 ? 'Refill zone' : 'In STRESS zone';
+          if (subs[0]) subs[0].textContent = subStatus(topsoil);
         }
+
+        // Stat 1: Subsoil
         if (vals[1] && !isNaN(subsoil)) {
           const sign = subsoil >= 0 ? '+' : '';
           vals[1].className = 'pstat-val ' + valColor(subsoil);
           vals[1].innerHTML = sign + subsoil.toFixed(2) + ' <span class="unit">mm</span>';
-          if (subs[1]) subs[1].textContent = subsoil <= 0 ? 'Wet' : subsoil <= 6 ? 'Upper rain buffer' : subsoil <= 20 ? 'Deep refill zone' : 'Deep stress';
+          if (subs[1]) subs[1].textContent = subStatus(subsoil);
         }
 
         const idEl = card.querySelector('.probe-id');
@@ -767,22 +790,25 @@
             const v = prec['recom_day_' + i];
             if (v && v !== '0' && v !== 0) sched.push(dayNames[(i - 1) % 7]);
           }
-          const schedStr = sched.length ? sched.join('/') + ' (' + sched.length + ' cycles)' : 'None';
-          const indNum = parseInt(indT);
-          const indColor = indNum > 20 ? 'var(--status-crit)' : indNum > 6 ? 'var(--status-warn)' : 'var(--text-muted)';
+          const schedStr = sched.length ? sched.join('/') : 'None';
+          const indVal = Math.max(parseInt(indT) || 0, parseInt(indB) || 0);
+          const indColor = indVal > 10 ? 'var(--status-crit)' : indVal > 5 ? 'var(--status-warn)' : 'var(--status-ok)';
           const prefix = idx === 0
             ? '1 drip line · Young trees 1-2yr'
             : '2 drip lines · Mature trees 4-5yr';
           idEl.innerHTML = prefix + ' · Indicators: <strong style="color:' + indColor + '">' + indT + ', ' + indB + '</strong> · Sched: ' + schedStr;
         }
 
-        if (!isNaN(topsoil)) {
+        // Card class — based on worst of topsoil/subsoil
+        const worst = Math.max(isNaN(topsoil) ? -99 : topsoil, isNaN(subsoil) ? -99 : subsoil);
+        if (worst > -99) {
           card.classList.remove('ok', 'warn', 'crit');
-          if (topsoil > 20) card.classList.add('crit');
-          else if (topsoil > 6) card.classList.add('warn');
+          if (worst > 20) card.classList.add('crit');
+          else if (worst > 6) card.classList.add('warn');
           else card.classList.add('ok');
         }
 
+        // Update moisture bar NOW marker (uses topsoil)
         if (!isNaN(topsoil)) {
           const svg = card.querySelector('.moisture-bar svg');
           if (svg) {
@@ -802,14 +828,15 @@
           }
         }
 
+        // Update ET from Pulse Eto (latest non-null) on Top card -> KPI 6
         if (probe === 'Top') {
           for (let i = ts.length - 1; i >= 0; i--) {
             const eto = rd[ts[i]].Eto;
             if (eto !== undefined && eto !== null && eto !== '') {
-              const kk = document.querySelectorAll('.weather-row .kpi');
-              if (kk[6]) {
-                kk[6].querySelector('.kpi-val').innerHTML = parseFloat(eto).toFixed(1) + '<sup>mm/d</sup>';
-                flash(kk[6]);
+              const k = document.querySelectorAll('.weather-row .kpi');
+              if (k[6]) {
+                k[6].querySelector('.kpi-val').innerHTML = parseFloat(eto).toFixed(1) + '<sup>mm/d</sup>';
+                flash(k[6]);
               }
               break;
             }
@@ -819,19 +846,42 @@
         flash(card);
       });
 
-      // Update soil moisture KPI as average above refill
-      if (topsoilTop !== null && topsoilBot !== null) {
-        const k = document.querySelectorAll('.weather-row .kpi');
-        if (k[3]) {
-          const avg = (topsoilTop + topsoilBot) / 2;
-          const sign = avg >= 0 ? '+' : '';
-          k[3].querySelector('.kpi-val').innerHTML = sign + avg.toFixed(1) + '<sup>mm</sup>';
-          const ve = k[3].querySelector('.kpi-val');
-          ve.className = 'kpi-val ' + (avg > 20 ? 'c-red' : avg > 6 ? 'c-amber' : avg > 0 ? 'c-green' : 'c-blue');
-          k[3].querySelector('.kpi-sub').textContent = 'Avg above refill · ' + (avg > 20 ? 'STRESS trend' : avg > 6 ? 'Drying trend' : 'OK');
-          flash(k[3]);
+      // Update flow/tree from EC data (newest irrigation event per probe)
+      const ec = data.ec || {};
+      ['Top', 'Bottom'].forEach((probe, idx) => {
+        const ecData = ec[probe];
+        if (!ecData) return;
+        const card = cards[idx];
+        if (!card) return;
+        const vals = card.querySelectorAll('.pstat-val');
+        const subs = card.querySelectorAll('.pstat-sub');
+        if (!vals[2]) return;
+
+        // Group flow events by day, pick most recent day with non-zero flow
+        const byDay = {};
+        Object.entries(ecData).forEach(([ts, rec]) => {
+          const day = ts.split(' ')[0];
+          if (!byDay[day]) byDay[day] = [];
+          byDay[day].push(rec);
+        });
+        const days = Object.keys(byDay).sort();
+        let lastFlowDay = null, lastTotal = 0;
+        for (let i = days.length - 1; i >= 0; i--) {
+          const total = byDay[days[i]].reduce((s, r) => s + (parseFloat(r.flow) || 0), 0);
+          if (total > 0) {
+            lastFlowDay = days[i];
+            lastTotal = total;
+            break;
+          }
         }
-      }
+        if (lastFlowDay) {
+          vals[2].innerHTML = lastTotal.toFixed(1) + ' <span class="unit">L</span>';
+          if (subs[2]) {
+            const dayShort = lastFlowDay.slice(5).replace('/', '/');
+            subs[2].textContent = 'Last ' + dayShort + (idx === 0 ? ' · Target 0.6/hr' : ' · 2-line cumulative');
+          }
+        }
+      });
     }
 
     function updateStatus(eOk, pOk) {
