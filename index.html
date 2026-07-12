@@ -250,10 +250,10 @@
       <span class="header-sub"><strong>PTN 201</strong> · 7.5 ha Macadamia · Ballito, KZN · 5,000 Trees · 1-5 yr</span>
     </div>
     <div class="badges">
-      <span class="badge badge-crit">BOTTOM OVER-IRRIGATED — SUBSOIL RECORD WET</span>
-      <span class="badge badge-crit">TOP DOSE FAILED — 0.4 L</span>
-      <span class="badge badge-warn">STATION OFFLINE 34d</span>
-      <span class="badge badge-date">2026-07-11</span>
+      <span class="badge badge-crit">TOP VALVE FAULT — REAL ~13mm</span>
+      <span class="badge badge-crit">PROBE D3 GLITCH</span>
+      <span class="badge badge-warn">STATION OFFLINE 35d</span>
+      <span class="badge badge-date">2026-07-12</span>
     </div>
   </div>
 
@@ -261,7 +261,7 @@
   <div class="alert anim-enter" style="animation-delay:80ms">
     <div class="alert-dot"></div>
     <div class="alert-text">
-      <strong>CONTROLLER IMBALANCE — opposite errors on the two zones.</strong> BOTTOM over-irrigated (38.3 L/tree Jul 10; 38–74 L every 2nd day) — subsoil −5.8mm, record-wet, deep profile saturated → waterlogging / Phytophthora risk. TOP dose FAILED Jul 10 (0.4 L @ EC 0.02) — topsoil climbing +4mm/day toward STRESS. <strong>CUT Bottom run-time + inspect Top valve/line. Rebalance controller on-site.</strong>
+      <strong>TOP "improvement" is a PROBE ARTIFACT — not water.</strong> Topsoil "jumped" 13.11→4.45mm at 00:00 Jul 12 driven by the <strong>D3 sensor alone</strong> (5.64→−1.80 in one hour), with ZERO irrigation flow. Real Top state is still <strong>~13mm deep CAUTION, ~7mm off STRESS</strong>, and the valve/drip fault is UNRESOLVED (no real dose since Jul 8). <strong>Fire a real Top dose + inspect the valve. Hold Bottom (record-wet).</strong>
     </div>
   </div>
 
@@ -270,7 +270,7 @@
     <div class="kpi anim-enter" style="animation-delay:120ms">
       <div class="kpi-lbl">Temperature</div>
       <div class="kpi-val c-amber">~21<sup>°C</sup></div>
-      <div class="kpi-sub">EST · station down · soil 20-22°C</div>
+      <div class="kpi-sub">EST · station down · soil 19-22°C</div>
     </div>
     <div class="kpi anim-enter" style="animation-delay:150ms">
       <div class="kpi-lbl">Humidity</div>
@@ -280,12 +280,12 @@
     <div class="kpi anim-enter" style="animation-delay:180ms">
       <div class="kpi-lbl">Rain Today</div>
       <div class="kpi-val c-blue">0.0<sup>mm</sup></div>
-      <div class="kpi-sub">EST · dry · front est ~Mon</div>
+      <div class="kpi-sub">EST · poss. light o/night shower</div>
     </div>
     <div class="kpi anim-enter" style="animation-delay:210ms">
       <div class="kpi-lbl">Soil Moisture</div>
-      <div class="kpi-val c-amber">11.2<sup>mm</sup></div>
-      <div class="kpi-sub">Top CAUTION · Bottom WET (−0.7)</div>
+      <div class="kpi-val c-amber">~13<sup>mm</sup></div>
+      <div class="kpi-sub">Top REAL (probe reads 4.5 = D3 glitch) · Bot −3.4 WET</div>
     </div>
     <div class="kpi anim-enter" style="animation-delay:240ms">
       <div class="kpi-lbl">Wind</div>
@@ -299,13 +299,13 @@
     </div>
     <div class="kpi anim-enter" style="animation-delay:300ms">
       <div class="kpi-lbl">ET (Ref)</div>
-      <div class="kpi-val c-amber">4.5<sup>mm/d</sup></div>
-      <div class="kpi-sub">Pulse Eto noon Jul 10 · quiet</div>
+      <div class="kpi-val c-amber">3.9<sup>mm/d</sup></div>
+      <div class="kpi-sub">Pulse Eto noon Jul 11 · quiet</div>
     </div>
     <div class="kpi anim-enter" style="animation-delay:330ms">
       <div class="kpi-lbl">Rain YTD</div>
       <div class="kpi-val c-blue">n/a<sup></sup></div>
-      <div class="kpi-sub">Station offline 34d — no data</div>
+      <div class="kpi-sub">Station offline 35d — no data</div>
     </div>
   </div>
 
@@ -318,30 +318,30 @@
         <div class="probe-hdr">
           <div>
             <div class="probe-title">Top Probe (AC228398)</div>
-            <div class="probe-id">1 drip line · Young trees 1-5yr · Indicators: <strong style="color:var(--status-warn)">11, 1</strong> · Subsoil: 1.23mm · Sched: ~Tu (advisory)</div>
+            <div class="probe-id">1 drip line · Young trees 1-5yr · Indicators: <strong style="color:var(--status-warn)">4, 1</strong> · Subsoil: 1.06mm · Sched: ~Sa (advisory)</div>
           </div>
-          <span class="pill pill-crit">DOSE FAILED</span>
+          <span class="pill pill-crit">READING SUSPECT</span>
         </div>
         <div class="probe-stats">
           <div class="pstat">
             <span class="pstat-lbl">Topsoil Now</span>
-            <span class="pstat-val c-amber">11.24 <span class="unit">mm</span></span>
-            <span class="pstat-sub">CAUTION · climbing</span>
+            <span class="pstat-val c-green">4.45 <span class="unit">mm</span></span>
+            <span class="pstat-sub" style="color:var(--status-crit)">⚠ D3 glitch — real ~13mm</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Subsoil Now</span>
-            <span class="pstat-val c-green">1.23 <span class="unit">mm</span></span>
-            <span class="pstat-sub">SAFE — buffer</span>
+            <span class="pstat-val c-green">1.06 <span class="unit">mm</span></span>
+            <span class="pstat-sub">SAFE — only stress guard</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
-            <span class="pstat-val c-red">0.4 <span class="unit">L</span></span>
-            <span class="pstat-sub">Jul 10 flush @ EC 0.02</span>
+            <span class="pstat-val c-red">0.0 <span class="unit">L</span></span>
+            <span class="pstat-sub">No real dose since Jul 8</span>
           </div>
           <div class="pstat">
-            <span class="pstat-lbl">Dose vs Need</span>
-            <span class="pstat-val c-red">0.4/4.5 <span class="unit">L</span></span>
-            <span class="pstat-sub">~9% — no real dose</span>
+            <span class="pstat-lbl">Last Real Dose</span>
+            <span class="pstat-val c-red">Jul 8 <span class="unit"></span></span>
+            <span class="pstat-sub">Jul 10 = flush @ EC 0.02</span>
           </div>
         </div>
         <div class="moisture-bar">
@@ -359,13 +359,16 @@
             <line x1="77" y1="2" x2="77" y2="36" stroke="rgba(107,158,90,0.2)" stroke-width="1" stroke-dasharray="2,2" />
             <line x1="169" y1="2" x2="169" y2="36" stroke="rgba(200,155,60,0.2)" stroke-width="1" stroke-dasharray="2,2" />
             <line x1="383" y1="2" x2="383" y2="36" stroke="rgba(196,74,63,0.2)" stroke-width="1" stroke-dasharray="2,2" />
-            <!-- Drying trend arrow — toward STRESS -->
-            <line x1="249" y1="14" x2="352" y2="14" stroke="rgba(196,74,63,0.35)" stroke-width="1" stroke-dasharray="4,3" />
-            <polygon points="352,10 362,14 352,18" fill="rgba(196,74,63,0.45)" />
-            <text x="300" y="9" text-anchor="middle" font-size="7" fill="var(--status-crit)" font-family="JetBrains Mono" font-weight="600" opacity="0.8">STRESS in ~2d if no dose</text>
-            <!-- NOW marker — CAUTION zone, x=249 -->
-            <circle cx="249" cy="14" r="9" fill="rgba(200,155,60,0.3)" stroke="var(--status-warn)" stroke-width="1.5" />
-            <text x="249" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
+            <!-- Drying arrow from REAL position toward STRESS -->
+            <line x1="276" y1="14" x2="360" y2="14" stroke="rgba(196,74,63,0.35)" stroke-width="1" stroke-dasharray="4,3" />
+            <polygon points="360,10 370,14 360,18" fill="rgba(196,74,63,0.45)" />
+            <text x="300" y="9" text-anchor="middle" font-size="7" fill="var(--status-crit)" font-family="JetBrains Mono" font-weight="600" opacity="0.8">STRESS in ~2d, no dose</text>
+            <!-- REAL ghost marker at ~13mm CAUTION (x=276) — static, not moved by live script -->
+            <circle cx="276" cy="14" r="8" fill="none" stroke="var(--status-warn)" stroke-width="1.3" stroke-dasharray="3,2" opacity="0.85" />
+            <text x="276" y="17" text-anchor="middle" font-size="6.5" fill="var(--status-warn)" font-family="JetBrains Mono" font-weight="800">REAL</text>
+            <!-- NOW marker (reported 4.45 = SAFE, x=145) — live-controlled, suspect -->
+            <circle cx="145" cy="14" r="9" fill="rgba(107,158,90,0.25)" stroke="var(--status-ok)" stroke-width="1.5" />
+            <text x="145" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
             <text x="38" y="35" text-anchor="middle" font-size="8" fill="var(--status-info)" font-family="Outfit" font-weight="600" opacity="0.7">WET</text>
             <text x="123" y="35" text-anchor="middle" font-size="8" fill="var(--status-ok)" font-family="Outfit" font-weight="600" opacity="0.7">SAFE</text>
             <text x="276" y="35" text-anchor="middle" font-size="8" fill="var(--status-warn)" font-family="Outfit" font-weight="600" opacity="0.7">CAUTION</text>
@@ -373,7 +376,7 @@
           </svg>
         </div>
         <div class="probe-note">
-          <strong>Regular dose failed Jul 10 (0.4 L @ EC 0.02 = a flush, not water).</strong> Topsoil 5.3→11.2mm since Jul 9, climbing ~4mm/day, ~9mm off STRESS. Subsoil 1.23mm SAFE is the only buffer — needs a proper 4–5 L/tree dose within 48h. Check Top valve/line for blockage.
+          <strong>Discount the 4.45mm reading — D3 sensor glitched (5.64→−1.80 in one hour) while D1/D2/D4 held.</strong> Real deficit ~13mm (deep CAUTION), climbed all Jul 11; no genuine dose since Jul 8 (Jul 10 = 0.4 L flush @ EC 0.02 = valve fault). Fire a real 4–5 L/tree dose + inspect valve/line. Subsoil 1.06mm SAFE is the only buffer.
         </div>
       </div>
 
@@ -382,30 +385,30 @@
         <div class="probe-hdr">
           <div>
             <div class="probe-title">Bottom Probe (AC228108)</div>
-            <div class="probe-id">2 drip lines · 4-5yr trees · Indicators: <strong style="color:var(--status-info)">−1, −6</strong> · Subsoil: −5.8mm · Sched: Th/Sa (ignore)</div>
+            <div class="probe-id">2 drip lines · 4-5yr trees · Indicators: <strong style="color:var(--status-info)">−3, −6</strong> · Subsoil: −5.67mm · Sched: Th/Sa (ignore)</div>
           </div>
-          <span class="pill pill-crit">OVER-IRRIGATED</span>
+          <span class="pill pill-warn">HOLD — RECORD WET</span>
         </div>
         <div class="probe-stats">
           <div class="pstat">
             <span class="pstat-lbl">Topsoil Now</span>
-            <span class="pstat-val c-blue">−0.69 <span class="unit">mm</span></span>
-            <span class="pstat-sub">WET border</span>
+            <span class="pstat-val c-blue">−3.39 <span class="unit">mm</span></span>
+            <span class="pstat-sub">WET zone</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Subsoil Now</span>
-            <span class="pstat-val c-blue">−5.8 <span class="unit">mm</span></span>
+            <span class="pstat-val c-blue">−5.67 <span class="unit">mm</span></span>
             <span class="pstat-sub">Record wet · D4-D6 saturated</span>
           </div>
           <div class="pstat">
             <span class="pstat-lbl">Flow / Tree</span>
-            <span class="pstat-val c-red">38.3 <span class="unit">L</span></span>
-            <span class="pstat-sub">Jul 10 · 38-74 L every 2nd day</span>
+            <span class="pstat-val c-green">0.0 <span class="unit">L</span></span>
+            <span class="pstat-sub">Skip held Jul 11 &amp; 12 ✓</span>
           </div>
           <div class="pstat">
-            <span class="pstat-lbl">Dose vs Target</span>
-            <span class="pstat-val c-red">38/18 <span class="unit">L</span></span>
-            <span class="pstat-sub">~2× over target</span>
+            <span class="pstat-lbl">Prev Dose</span>
+            <span class="pstat-val c-red">38.3 <span class="unit">L</span></span>
+            <span class="pstat-sub">Jul 10 · ~2× target</span>
           </div>
         </div>
         <div class="moisture-bar">
@@ -417,13 +420,13 @@
             <line x1="77" y1="2" x2="77" y2="36" stroke="rgba(107,158,90,0.2)" stroke-width="1" stroke-dasharray="2,2" />
             <line x1="169" y1="2" x2="169" y2="36" stroke="rgba(200,155,60,0.2)" stroke-width="1" stroke-dasharray="2,2" />
             <line x1="383" y1="2" x2="383" y2="36" stroke="rgba(196,74,63,0.2)" stroke-width="1" stroke-dasharray="2,2" />
-            <!-- Wetting arrow — subsoil saturating deeper -->
-            <line x1="100" y1="14" x2="40" y2="14" stroke="rgba(90,138,176,0.4)" stroke-width="1" stroke-dasharray="4,3" />
-            <polygon points="40,10 30,14 40,18" fill="rgba(90,138,176,0.5)" />
-            <text x="120" y="9" text-anchor="middle" font-size="7" fill="var(--status-info)" font-family="JetBrains Mono" font-weight="600" opacity="0.85">subsoil −5.8mm · deep waterlogging</text>
-            <!-- NOW marker — WET zone, x=66 -->
-            <circle cx="66" cy="14" r="9" fill="rgba(90,138,176,0.3)" stroke="var(--status-info)" stroke-width="1.5" />
-            <text x="66" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
+            <!-- Slow draw-back arrow toward SAFE -->
+            <line x1="40" y1="14" x2="120" y2="14" stroke="rgba(107,158,90,0.35)" stroke-width="1" stroke-dasharray="4,3" />
+            <polygon points="120,10 130,14 120,18" fill="rgba(107,158,90,0.45)" />
+            <text x="150" y="9" text-anchor="middle" font-size="7" fill="var(--status-info)" font-family="JetBrains Mono" font-weight="600" opacity="0.85">subsoil −5.67mm · draining slowly</text>
+            <!-- NOW marker (reported −3.39 = WET, x=25) — live-controlled -->
+            <circle cx="25" cy="14" r="9" fill="rgba(90,138,176,0.3)" stroke="var(--status-info)" stroke-width="1.5" />
+            <text x="25" y="17.5" text-anchor="middle" font-size="7" fill="white" font-family="JetBrains Mono" font-weight="800">NOW</text>
             <text x="38" y="35" text-anchor="middle" font-size="8" fill="var(--status-info)" font-family="Outfit" font-weight="600" opacity="0.7">WET</text>
             <text x="123" y="35" text-anchor="middle" font-size="8" fill="var(--status-ok)" font-family="Outfit" font-weight="600" opacity="0.7">SAFE</text>
             <text x="276" y="35" text-anchor="middle" font-size="8" fill="var(--status-warn)" font-family="Outfit" font-weight="600" opacity="0.7">CAUTION</text>
@@ -431,7 +434,7 @@
           </svg>
         </div>
         <div class="probe-note">
-          <strong>Over-irrigated — 38.3 L/tree Jul 10 (~2× target), 38–74 L every 2nd day.</strong> Subsoil −5.8mm (record wet), deep D4–D6 saturated and trending wetter. Jul 9's cut to 6.4 L was one off-day, not a fix. Waterlogging / Phytophthora / leaching risk — CUT run-time, skip next 1–2 cycles. Ignore Pulse Th/Sa advice.
+          <strong>Skip-cycle WORKED — flow 0 Jul 11 &amp; 12, no premature 38–70 L dose.</strong> Deep D4–D6 still saturated / record-wet (−1.68/−2.17/−3.50), draining slowly. Hold — no dose until subsoil recovers to 0 to −3mm. EC 0.77 (low salinity, no concern). Ignore Pulse Th/Sa advice; if Mon rain lands, keep withheld.
         </div>
       </div>
     </div>
@@ -443,49 +446,49 @@
         <div class="section-title">7-Day Forecast (EST — station offline) · cold front ~Mon</div>
         <div class="forecast-grid">
           <div class="fc-day today">
-            <span class="fc-dow">SAT</span>
+            <span class="fc-dow">SUN</span>
             <span class="fc-icon">⛅</span>
             <span class="fc-temp">22°</span>
-            <span class="fc-rain">0.0 mm</span>
-            <span class="fc-et">ET ~4</span>
-          </div>
-          <div class="fc-day">
-            <span class="fc-dow">SUN</span>
-            <span class="fc-icon">☀️</span>
-            <span class="fc-temp">23°</span>
             <span class="fc-rain">0.0 mm</span>
             <span class="fc-et">ET ~4</span>
           </div>
           <div class="fc-day rain">
             <span class="fc-dow">MON</span>
             <span class="fc-icon">🌧️</span>
-            <span class="fc-temp">19°</span>
-            <span class="fc-rain" style="color:#6a9ec4;font-weight:800">6.0 mm</span>
+            <span class="fc-temp">18°</span>
+            <span class="fc-rain" style="color:#6a9ec4;font-weight:800">8.0 mm</span>
             <span class="fc-et">ET ~3</span>
           </div>
-          <div class="fc-day">
+          <div class="fc-day rain">
             <span class="fc-dow">TUE</span>
-            <span class="fc-icon">⛅</span>
-            <span class="fc-temp">21°</span>
-            <span class="fc-rain">2.0 mm</span>
+            <span class="fc-icon">🌧️</span>
+            <span class="fc-temp">17°</span>
+            <span class="fc-rain" style="color:#6a9ec4;font-weight:700">3.0 mm</span>
             <span class="fc-et">ET ~3</span>
           </div>
           <div class="fc-day">
             <span class="fc-dow">WED</span>
+            <span class="fc-icon">⛅</span>
+            <span class="fc-temp">20°</span>
+            <span class="fc-rain">0.0 mm</span>
+            <span class="fc-et">ET ~3</span>
+          </div>
+          <div class="fc-day">
+            <span class="fc-dow">THU</span>
+            <span class="fc-icon">☀️</span>
+            <span class="fc-temp">22°</span>
+            <span class="fc-rain">0.0 mm</span>
+            <span class="fc-et">ET ~4</span>
+          </div>
+          <div class="fc-day">
+            <span class="fc-dow">FRI</span>
             <span class="fc-icon">☀️</span>
             <span class="fc-temp">23°</span>
             <span class="fc-rain">0.0 mm</span>
             <span class="fc-et">ET ~4</span>
           </div>
           <div class="fc-day">
-            <span class="fc-dow">THU</span>
-            <span class="fc-icon">☀️</span>
-            <span class="fc-temp">24°</span>
-            <span class="fc-rain">0.0 mm</span>
-            <span class="fc-et">ET ~4</span>
-          </div>
-          <div class="fc-day">
-            <span class="fc-dow">FRI</span>
+            <span class="fc-dow">SAT</span>
             <span class="fc-icon">☀️</span>
             <span class="fc-temp">24°</span>
             <span class="fc-rain">0.0 mm</span>
@@ -507,41 +510,41 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="risk-row sev-crit">
-              <td>Bottom deep waterlogging — subsoil −5.8mm record, 38–74 L doses</td>
-              <td><span class="sev sev-c">CRIT</span></td>
-              <td><span class="urg-now">NOW</span></td>
-              <td>Cut Bottom run-time · skip next 1–2 cycles</td>
-            </tr>
-            <tr class="risk-row sev-crit">
-              <td>Controller run-time imbalance (root cause)</td>
-              <td><span class="sev sev-c">CRIT</span></td>
-              <td><span class="urg-now">NOW</span></td>
-              <td>On-site panel audit — rebalance Top↑ Bottom↓</td>
-            </tr>
             <tr class="risk-row sev-high">
-              <td>Top dose failing — 0.4 L Jul 10, climbing to STRESS</td>
+              <td>Top valve/drip fault + real ~13mm deficit masked by artifact</td>
               <td><span class="sev sev-h">HIGH</span></td>
               <td><span class="urg-now">NOW</span></td>
-              <td>Restore Top run-time · inspect valve/line</td>
+              <td>Fire real dose + physically inspect valve/line</td>
             </tr>
             <tr class="risk-row sev-high">
-              <td>Phytophthora / N-leaching on mature zone</td>
+              <td>Bottom deep waterlog — subsoil −5.67mm record, D4-D6 saturated</td>
               <td><span class="sev sev-h">HIGH</span></td>
-              <td><span class="urg-week">WEEK</span></td>
-              <td>Hold Bottom until subsoil → 0 to −3mm</td>
+              <td><span class="urg-now">NOW</span></td>
+              <td>Hold skip; no dose until subsoil 0 to −3mm</td>
+            </tr>
+            <tr class="risk-row sev-high">
+              <td>Controller imbalance — Top under/faulted, Bottom over</td>
+              <td><span class="sev sev-h">HIGH</span></td>
+              <td><span class="urg-now">NOW</span></td>
+              <td>On-site panel audit — Top↑ / Bottom↓</td>
             </tr>
             <tr class="risk-row sev-med">
-              <td>Ecowitt station offline 34d — no live weather</td>
+              <td>Probe D3 sensor glitch — Top topsoil unreliable</td>
               <td><span class="sev sev-m">MOD</span></td>
-              <td><span class="urg-week">WEEK</span></td>
-              <td>Physical site fix / replacement PO</td>
+              <td><span class="urg-now">NOW</span></td>
+              <td>Verify / recalibrate D3; discount 4.45mm</td>
             </tr>
             <tr class="risk-row sev-med">
-              <td>Cold front ~Mon on already-WET Bottom</td>
+              <td>Ecowitt station offline 35d — frost/rain-blind</td>
               <td><span class="sev sev-m">MOD</span></td>
-              <td><span class="urg-month">MONITOR</span></td>
-              <td>Skip all Bottom irrigation if rain lands</td>
+              <td><span class="urg-now">NOW</span></td>
+              <td>Physical site fix / replacement PO (10th flag)</td>
+            </tr>
+            <tr class="risk-row sev-med">
+              <td>Chronic soil: pH 5.28, Al 1,247 ppm, Zn 8% / B 36%</td>
+              <td><span class="sev sev-m">MOD</span></td>
+              <td><span class="urg-month">MONTH</span></td>
+              <td>Lime+gypsum/Al pre-Sep flush; Sep foliar Zn+B</td>
             </tr>
           </tbody>
         </table>
@@ -606,9 +609,9 @@
 
   <!-- FOOTER -->
   <div class="footer anim-enter" style="animation-delay:880ms">
-    <span id="ai-report-ts">AI Report: 2026-07-11 (Cycle 8)</span>
-    <span>Weather: Ecowitt API (OFFLINE 34d — est.) · Probe: IrriCheck Pulse API (live) · Soil: Agrisol Aug 2025</span>
-    <span>PRIORITY: CUT BOTTOM · FIX TOP VALVE · REBALANCE CONTROLLER · Ecowitt replacement</span>
+    <span id="ai-report-ts">AI Report: 2026-07-12 (Cycle 9)</span>
+    <span>Weather: Ecowitt API (OFFLINE 35d — est.) · Probe: IrriCheck Pulse API (live) · Soil: Agrisol Aug 2025</span>
+    <span>PRIORITY: FIX TOP VALVE · RECALIBRATE D3 · HOLD BOTTOM · REBALANCE CONTROLLER</span>
   </div>
 
   <!-- LIVE DATA SCRIPT -->
@@ -740,11 +743,13 @@
         const vals = card.querySelectorAll('.pstat-val');
         const subs = card.querySelectorAll('.pstat-sub');
         // Stat 0 = Topsoil Now, Stat 1 = Subsoil Now
+        // NOTE: Top (idx 0) topsoil is under D3-glitch review 2026-07-12 — keep the
+        // "real ~13mm" caveat sub-text; only recolour + update the number.
         if (vals[0] && !isNaN(topsoil)) {
           const sign = topsoil >= 0 ? '' : '−';
           vals[0].className = 'pstat-val ' + valColor(topsoil);
           vals[0].innerHTML = sign + Math.abs(topsoil).toFixed(2) + ' <span class="unit">mm</span>';
-          if (subs[0]) subs[0].textContent = topsoil <= 0 ? 'WET border' : topsoil <= 6 ? 'SAFE' : topsoil <= 20 ? 'CAUTION' : 'STRESS';
+          if (idx !== 0 && subs[0]) subs[0].textContent = topsoil <= 0 ? 'WET zone' : topsoil <= 6 ? 'SAFE' : topsoil <= 20 ? 'CAUTION' : 'STRESS';
         }
         if (vals[1] && !isNaN(subsoil)) {
           const sign = subsoil >= 0 ? '' : '−';
@@ -778,16 +783,33 @@
           if (svg) {
             const x = mmToX(topsoil);
             const [fill, stroke] = markerColors(x);
-            const circles = svg.querySelectorAll('circle');
+            // Move ONLY the live NOW marker (the circle nearest the NOW text),
+            // leaving the static REAL ghost marker (Top) untouched.
             const texts = svg.querySelectorAll('text');
-            if (circles.length) {
-              const marker = circles[circles.length - 1];
-              marker.setAttribute('cx', x);
-              marker.setAttribute('fill', fill);
-              marker.setAttribute('stroke', stroke);
-            }
-            for (const t of texts) {
-              if (t.textContent === 'NOW') t.setAttribute('x', x);
+            let nowText = null;
+            for (const t of texts) { if (t.textContent === 'NOW') { nowText = t; break; } }
+            if (nowText) {
+              nowText.setAttribute('x', x);
+              const circles = svg.querySelectorAll('circle');
+              let marker = null, best = 1e9;
+              const ny = 14;
+              circles.forEach(c => {
+                // pick the solid-fill NOW circle (has a fill, not the dashed ghost)
+                const f = c.getAttribute('fill');
+                if (f && f !== 'none') {
+                  const d = Math.abs(parseFloat(c.getAttribute('cx')) - parseFloat(nowText.getAttribute('x')));
+                  // fall through; we just need the filled one
+                }
+              });
+              // simplest robust pick: the filled circle is the NOW marker
+              circles.forEach(c => { if ((c.getAttribute('fill') || '') !== 'none' && marker === null) marker = c; });
+              // if multiple filled, choose the last filled (NOW is drawn after ghost)
+              circles.forEach(c => { if ((c.getAttribute('fill') || '') !== 'none') marker = c; });
+              if (marker) {
+                marker.setAttribute('cx', x);
+                marker.setAttribute('fill', fill);
+                marker.setAttribute('stroke', stroke);
+              }
             }
           }
         }
